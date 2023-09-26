@@ -27,7 +27,7 @@ public class InventorySlot : MonoBehaviour
             //빈 슬롯이라면 이미지를 표시하지 않음
             else
             {
-                image.color = new Color(1, 1, 1, 0);
+                //image.color = new Color(1, 1, 1, 0);
             }
 
             UpdateQuantity();
@@ -51,13 +51,13 @@ public class InventorySlot : MonoBehaviour
     /// </summary>
     public void UpdateQuantity()
     {
-        quantityText.text = item.Quantity.ToString();
-
         if (item == null || item.Quantity <= 0)
         {
             quantityText.gameObject.SetActive(false);
             return;
         }
+
+        quantityText.text = item.Quantity.ToString();
         quantityText.gameObject.SetActive(true);
     }
 
