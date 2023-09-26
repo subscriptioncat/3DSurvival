@@ -54,10 +54,6 @@ public class PreviewObject : MonoBehaviour
             count--;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        
-    }
     public bool isBuildable()
     {
         return count == 0;

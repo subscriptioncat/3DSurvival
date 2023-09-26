@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ½Ä·áÇ° µîÀÇ ¼Ò¸ğ¼º ¾ÆÀÌÅÛÀÌ´Ù. ÇØ´ç ¾ÆÀÌÅÛÀÌ Æ÷ÇÔµÇ´Â ÇÏÀ§ ºĞ·ù¿¡ ´ëÇÑ Á¤º¸´Â E_Tag ·Î ³ªÅ¸³½´Ù.
+/// ì‹ë£Œí’ˆ ë“±ì˜ ì†Œëª¨ì„± ì•„ì´í…œì´ë‹¤. í•´ë‹¹ ì•„ì´í…œì´ í¬í•¨ë˜ëŠ” í•˜ìœ„ ë¶„ë¥˜ì— ëŒ€í•œ ì •ë³´ëŠ” E_Tag ë¡œ ë‚˜íƒ€ë‚¸ë‹¤.
 /// </summary>
 [CreateAssetMenu(fileName = "UsableData", menuName = "ItemInfoController/Usable/Default", order = 0)]
 public class UsableSO : ItemSO

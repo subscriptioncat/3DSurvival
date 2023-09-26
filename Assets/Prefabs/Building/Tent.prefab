@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2634479305235197274}
   - component: {fileID: 7321600891757913682}
   - component: {fileID: -7539576095459229777}
+  - component: {fileID: -4482654774810930431}
   m_Layer: 0
   m_Name: Tent
   m_TagString: Untagged
@@ -71,6 +72,33 @@ MonoBehaviour:
   layerGround: 0
   green: {fileID: 2100000, guid: cc8ea3b6f25aba548a2c66742d392f70, type: 2}
   red: {fileID: 2100000, guid: cf215a09ecf3f77459564c4589de9be7, type: 2}
+--- !u!54 &-4482654774810930431
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3114594787965846244}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &3338759931299677372
 PrefabInstance:
   m_ObjectHideFlags: 0

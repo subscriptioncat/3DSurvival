@@ -9,15 +9,17 @@ public enum E_BuildingName
 
 public class Build : MonoBehaviour
 {
-    //∏µÁ ∞«√‡ ∏ÆΩ∫∆Æ∏¶ ¿˙¿Â«ÿæﬂ µÀ¥œ¥Ÿ.
+    //Î™®Îì† Í±¥Ï∂ï Î¶¨Ïä§Ìä∏Î•º Ï†ÄÏû•Ìï¥Ïïº Îê©ÎãàÎã§.
     [SerializeField] private List<BuildSO> buildList;
     public List<BuildSO> BuildList { get { return buildList; } }
 
     [Range(0, 20)][SerializeField] private int previewDistance;
 
     private int nowIndex;
-    private GameObject gameobject;
-    private Transform objectTransform;
+    private GameObject preViewGameObject;
+    private Transform preViewGameObjectTransform;
+    private PreviewObject preViewComponent;
+    private bool isPreViewActive = false;
 
     public bool IsBuildingMaterials(int selectIndex)
     {
@@ -36,12 +38,20 @@ public class Build : MonoBehaviour
     }
     void DisplayExample()
     {
-        gameobject = Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
-        objectTransform = gameobject.transform;
-        var objectMeashCollider = gameobject.GetComponent<MeshCollider>();
+        isPreViewActive = true;
+        preViewGameObject = Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
+        preViewGameObjectTransform = preViewGameObject.transform;
+        preViewComponent = preViewGameObject.GetComponent<PreviewObject>();
+        var objectMeashCollider = preViewGameObject.GetComponent<MeshCollider>();
         objectMeashCollider.convex = true;
         objectMeashCollider.isTrigger = true;
     }
+    private void InstantiateBuilding()
+    {
+        var gameobject = Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
+        gameobject.GetComponent<PreviewObject>().enabled = false;
+    }
+
 
     private void Start()
     {
@@ -49,15 +59,42 @@ public class Build : MonoBehaviour
     }
     private void Update()
     {
-        objectTransform.position = transform.position + transform.forward * previewDistance;
-        objectTransform.rotation = transform.rotation;
+        preViewGameObjectTransform.position = transform.position + transform.forward * previewDistance;
+        preViewGameObjectTransform.rotation = transform.rotation;
     }
-    //public bool IsCollision()
-    //{
 
-    //}
-    //public void Build()
-    //{
-    //    //
-    //}
+    public void OnPreView()
+    {
+        if (IsBuildingMaterials(0))
+        {
+            DisplayExample();
+        }
+        else
+        {
+            //ÏûêÏû¨Í∞Ä Î∂ÄÏ°±Ìï©ÎãàÎã§.
+        }
+    }
+
+    public void OnBuild()
+    {
+        if (isPreViewActive)
+        {
+            if (IsBuildingMaterials(0))
+            {
+                if (preViewComponent.isBuildable())
+                {
+                    InstantiateBuilding();
+                }
+            }
+            else
+            {
+                //ÏûêÏû¨Í∞Ä Î∂ÄÏ°±Ìï©ÎãàÎã§.
+            }
+        }
+    }
+    public void OnExitPreView()
+    {
+        isPreViewActive = false;
+        Destroy(preViewGameObject);
+    }
 }
