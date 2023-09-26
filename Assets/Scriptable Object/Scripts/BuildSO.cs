@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BuildSO", menuName = "Build/BuildSO", order = int.MaxValue)]
 public class BuildSO :ScriptableObject
 {
-    [SerializeField] private string name;
-    public string Name { get { return name; } }
+    [SerializeField] private string buildingname;
+    public string BuildingName { get { return buildingname; } }
     [SerializeField] private string explanation;
     public string Explanation { get { return explanation; } }
     [SerializeField] private int maxHp;

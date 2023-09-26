@@ -13,9 +13,15 @@ public class Build : MonoBehaviour
     [SerializeField] private List<BuildSO> buildList;
     public List<BuildSO> BuildList { get { return buildList; } }
 
+    [Range(0, 20)][SerializeField] private int previewDistance;
+
+    private int nowIndex;
+    private GameObject gameobject;
+    private Transform objectTransform;
+
     public bool IsBuildingMaterials(int selectIndex)
     {
-        int nowIndex = buildList[selectIndex].ConsumingResources.Count;
+        nowIndex = buildList[selectIndex].ConsumingResources.Count;
         for (int i = 0; i < nowIndex; i++)
         {
             //if(!Inventory.instance.TryConsume(
@@ -27,6 +33,24 @@ public class Build : MonoBehaviour
             //}
         }
         return true;
+    }
+    void DisplayExample()
+    {
+        gameobject = Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
+        objectTransform = gameobject.transform;
+        var objectMeashCollider = gameobject.GetComponent<MeshCollider>();
+        objectMeashCollider.convex = true;
+        objectMeashCollider.isTrigger = true;
+    }
+
+    private void Start()
+    {
+        DisplayExample();
+    }
+    private void Update()
+    {
+        objectTransform.position = transform.position + transform.forward * previewDistance;
+        objectTransform.rotation = transform.rotation;
     }
     //public bool IsCollision()
     //{
