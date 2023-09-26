@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum E_BuildingName
+{
+    Tent,
+}
+
 public class Build : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //모든 건축 리스트를 저장해야 됩니다.
+    [SerializeField] private List<BuildSO> buildList;
+    public List<BuildSO> BuildList { get { return buildList; } }
 }
