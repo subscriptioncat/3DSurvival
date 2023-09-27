@@ -13,12 +13,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Look")]
     public Transform cameraContainer;
-    public float minXLook;
-    public float maxXLook;
+    public float xLook;
     private float cameraCurrentXRotation;
     public float lookSensitivity;
 
     private Vector2 mouseDelta;
+
+    private float minXLook;
+    private float maxXLook;
 
     [HideInInspector]
     public bool canLook = true;
@@ -37,6 +39,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
+        minXLook = -xLook;
+        maxXLook = xLook;
     }
 
     private void FixedUpdate()
@@ -70,11 +75,7 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
     }
 
-    public void OnLookInput(InputAction.CallbackContext context)
-    {
-        mouseDelta = context.ReadValue<Vector2>();
-    }
-
+    #region On- XXX -Inputs
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -85,6 +86,11 @@ public class PlayerController : MonoBehaviour
         {
             currentMovementInput = Vector2.zero;
         }
+    }
+
+    public void OnLookInput(InputAction.CallbackContext context)
+    {
+        mouseDelta = context.ReadValue<Vector2>();
     }
 
     public void OnJumpInput(InputAction.CallbackContext context)
@@ -107,10 +113,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Attack");
         }
 
-            
+
     }
 
-    //Interactive
     public void OnInteractiveInput(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -118,9 +123,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Interactive");
         }
 
-        
+
     }
-    //Inventory
+
     public void OnInventoryInput(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -128,9 +133,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Inventory");
         }
 
-        
+
     }
-    //Stats
+
     public void OnStatsInput(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -138,8 +143,13 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Stats");
         }
 
-        
+
     }
+    #endregion
+
+    
+
+    
 
     private bool IsGrounded()
     {
