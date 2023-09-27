@@ -9,7 +9,6 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance;
     public List<Item> items;
 
-    [SerializeField] private ItemPopupManager popup;
     [SerializeField] private Transform slotParent;
     [SerializeField] private InventorySlot[] slots;
 
@@ -25,15 +24,21 @@ public class InventoryManager : MonoBehaviour
             instance = this;
         }
 
-        if (popup == null)
-        {
-            popup = GetComponent<ItemPopupManager>();
-        }
         UpdateSlot();
     }
 
+    /// <summary>
+    /// 인벤토리 UI 및 보유 아이템 리스트 갱신. 수량이 0 이하인 아이템은 보유 아이템 리스트에서 제거한다.
+    /// </summary>
     public void UpdateSlot()
     {
+        //수량이 0 이하인 아이템은 보유 아이템 리스트에서 제거한다.
+        for (int j = 0; j < items.Count;)
+        {
+            if (items[j].Quantity <= 0) { items.RemoveAt(j); }
+            else { j++; }
+        }
+
         int i = 0;
         //현재까지 슬롯에 추가한 아이템의 갯수가 슬롯의 한도나 아이템 리스트의 한도 이하일 때 까지 추가한다.
         for (; i < items.Count && i < slots.Length; i++)
