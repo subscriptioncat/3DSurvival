@@ -6,30 +6,55 @@ using UnityEngine.UI;
 
 public class ItemPopupManager : MonoBehaviour
 {
-    [Header("Equipment Popup")]
-    [SerializeField] private GameObject popupObject;
-    [SerializeField] private Text popupText;
-    [SerializeField] private Text popupLable;
-    [SerializeField] private Button yesBtn;
-    [SerializeField] private Button noBtn;
+    public static ItemPopupManager instance;
+
+    [Header("Interact Popup")]
+    [SerializeField] private GameObject interactPopup;
+    [SerializeField] private Text interactPopupText;
+    [SerializeField] private Text interactPopupLable;
+    [SerializeField] private Button interactYesBtn;
+    [SerializeField] private Button interactNoBtn;
+
+    [Header("Discard Popup")]
+    [SerializeField] private GameObject discardPopup;
+    [SerializeField] private Text discardPopupText;
+    [SerializeField] private Text discardPopupLable;
+    [SerializeField] private Button discardYesBtn;
+    [SerializeField] private Button discardNoBtn;
 
     private event Action StartProcess;
 
     private void Awake()
     {
-        yesBtn.onClick.AddListener(HidePopup);
-        yesBtn.onClick.AddListener(() => StartProcess?.Invoke());
+        if (instance == null) { instance = this; }
 
-        noBtn.onClick.AddListener(HidePopup);
+        //아이템 상호작용 팝업 초기화
+        interactYesBtn.onClick.AddListener(HidePopup);
+        interactYesBtn.onClick.AddListener(() => StartProcess?.Invoke());
+
+        interactNoBtn.onClick.AddListener(HidePopup);
+
+        //아이템 버리기 팝업 초기화
+        discardYesBtn.onClick.AddListener(HidePopup);
+        discardYesBtn.onClick.AddListener(() => StartProcess?.Invoke());
+
+        discardNoBtn.onClick.AddListener(HidePopup);
     }
 
-    private void HidePopup() { gameObject.SetActive(false); }
+    private void HidePopup() { interactPopup.SetActive(false); discardPopup.SetActive(false); }
 
-    public void ShowPopup(Action okCallback, string text, string lable)
+    public void ShowInteractPopup(Action okCallback, string text, string lable)
     {
-        popupText.text = text;
-        popupLable.text = lable;
-        popupObject.SetActive(true);
+        interactPopupText.text = text;
+        interactPopupLable.text = lable;
+        interactPopup.SetActive(true);
+        StartProcess = okCallback;
+    }
+    public void ShowDiscardPopup(Action okCallback, string text, string lable)
+    {
+        discardPopupText.text = text;
+        discardPopupLable.text = lable;
+        discardPopup.SetActive(true);
         StartProcess = okCallback;
     }
 }

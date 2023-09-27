@@ -24,7 +24,7 @@ public class InventorySlot : MonoBehaviour
                 image.sprite = item.ItemSO.itemImage;
                 image.color = new Color(1, 1, 1, 1);
             }
-            //빈 슬롯이라면 이미지를 표시하지 않음
+            //빈 슬롯이라면...?
             else
             {
                 //image.color = new Color(1, 1, 1, 0);
@@ -65,6 +65,10 @@ public class InventorySlot : MonoBehaviour
     {
         if (item != null)
         {
+            //인벤토리 하단에 현재 아이템 정보 출력 및 상호작용, 버리기 버튼 활성화
+            InventoryInfo.instance.UpdateInfo(this);
+
+
             //string popupText = "";
             //string popupLable = GetLableText();
 
@@ -83,19 +87,48 @@ public class InventorySlot : MonoBehaviour
         }
     }
 
-    private void Equip()
+    private void Discard()
     {
-        //player.atk += item.atk;
-        //player.def += item.def;
-        //item.isEquiped = true;
+        
     }
 
-    private void Dequip()
+    private void Use()
     {
-        //player.atk -= item.atk;
-        //player.def -= item.def;
-        //item.isEquiped = false;
+        if(item.ItemSO is UsableSO usable)
+        {
+            //식료품 카테고리의 아이템이라면
+            if(usable is EdibleSO edible)
+            {
+                Debug.Log("is Edible Item!");
+
+                //플레이어의 체력, 포만감, 수분, 스테미너 등을 증감시키는 부분.
+                
+                //해당 아이템의 수량 1 감소, 이에 대한 갱신을 요청하는 부분.
+                item.Quantity -= 1;
+                UpdateQuantity();
+            }
+            //단순 소모품 카테고리의 아이템이라면
+            else
+            {
+                Debug.Log("is Usable Item!");
+            }
+        }
     }
+
+    //장비품 관련 추가 시 사용할 예정
+    //private void Equip()
+    //{
+    //    player.atk += item.atk;
+    //    player.def += item.def;
+    //    item.isEquiped = true;
+    //}
+
+    //private void Dequip()
+    //{
+    //    player.atk -= item.atk;
+    //    player.def -= item.def;
+    //    item.isEquiped = false;
+    //}
 
     //private string GetPopupLableText()
     //{
