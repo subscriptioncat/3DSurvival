@@ -61,44 +61,43 @@ public class InventorySlot : MonoBehaviour
         quantityText.gameObject.SetActive(true);
     }
 
-    //public void OnClickSlot()
-    //{
-    //    if (item != null)
-    //    {
-    //        string popupText = "";
-    //        string popupLable = GetLableText();
+    public void OnClickSlot()
+    {
+        if (item != null)
+        {
+            //string popupText = "";
+            //string popupLable = GetLableText();
 
-    //        if (item.isEquiped)
-    //        {
-    //            popupText = "장비를 해제하시겠습니까?";
+            //if(item.ItemSO is EquipmentSO equipmentSO)
+            //if (equipmentSO.isEquiped)
+            //{
+            //    popupText = "장비를 해제하시겠습니까?";
 
-    //            Inventory.instance.ShowPopup(() => Dequip(), popupText, popupLable);
-    //        }
-    //        else
-    //        {
-    //            popupText = "장비를 장착하시겠습니까?";
-    //            Inventory.instance.ShowPopup(() => Equip(), popupText, popupLable);
-    //        }
-    //    }
-    //}
+            //    InventoryManager.instance.ShowPopup(() => Dequip(), popupText, popupLable);
+            //}
+            //else
+            //{
+            //    popupText = "장비를 장착하시겠습니까?";
+            //    Inventory.instance.ShowPopup(() => Equip(), popupText, popupLable);
+            //}
+        }
+    }
 
-    //private void Equip()
-    //{
-    //    player.atk += item.atk;
-    //    player.def += item.def;
-    //    player.con += item.con;
-    //    item.isEquiped = true;
-    //}
+    private void Equip()
+    {
+        //player.atk += item.atk;
+        //player.def += item.def;
+        //item.isEquiped = true;
+    }
 
-    //private void Dequip()
-    //{
-    //    player.atk -= item.atk;
-    //    player.def -= item.def;
-    //    player.con -= item.con;
-    //    item.isEquiped = false;
-    //}
+    private void Dequip()
+    {
+        //player.atk -= item.atk;
+        //player.def -= item.def;
+        //item.isEquiped = false;
+    }
 
-    //private string GetLableText()
+    //private string GetPopupLableText()
     //{
     //    string popupLable = "";
 
