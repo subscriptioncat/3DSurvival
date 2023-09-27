@@ -101,15 +101,4 @@ public class InventoryManager : MonoBehaviour
 
         return 0;
     }
-
-    /// <summary>
-    /// 아이템 버리기, 제작 시 팝업창을 띄울 때 사용할 메소드. 경우에 따라 파기할 수도 있음
-    /// </summary>
-    /// <param name="okCallback"></param>
-    /// <param name="text"></param>
-    /// <param name="lable"></param>
-    public void ShowPopup(Action okCallback, string text, string lable)
-    {
-        //popup.ShowPopup(okCallback, text, lable);
-    }
 }
