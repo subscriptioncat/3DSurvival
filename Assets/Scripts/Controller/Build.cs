@@ -39,29 +39,31 @@ public class Build : MonoBehaviour
     void DisplayExample()
     {
         isPreViewActive = true;
-        preViewGameObject = Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
+        preViewGameObject = Instantiate(buildList[nowIndex].PreViewPrefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
         preViewGameObjectTransform = preViewGameObject.transform;
         preViewComponent = preViewGameObject.GetComponent<PreviewObject>();
-        var objectMeashCollider = preViewGameObject.GetComponent<MeshCollider>();
-        objectMeashCollider.convex = true;
-        objectMeashCollider.isTrigger = true;
     }
     private void InstantiateBuilding()
     {
-        var gameobject = Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
-        gameobject.GetComponent<PreviewObject>().enabled = false;
+        Instantiate(buildList[nowIndex].Prefab, transform.position + transform.forward * previewDistance, Quaternion.identity);
     }
 
-
+    //테스트를 위한 코드~
     private void Start()
     {
         DisplayExample();
     }
     private void Update()
     {
-        preViewGameObjectTransform.position = transform.position + transform.forward * previewDistance;
-        preViewGameObjectTransform.rotation = transform.rotation;
+        if (isPreViewActive)
+        {
+            preViewGameObjectTransform.position = transform.position + transform.forward * previewDistance;
+            preViewGameObjectTransform.rotation = transform.rotation;
+        }
+        
     }
+    //까지
+
 
     public void OnPreView()
     {
@@ -88,6 +90,7 @@ public class Build : MonoBehaviour
             }
             else
             {
+                OnExitPreView();
                 //자재가 부족합니다.
             }
         }

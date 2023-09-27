@@ -16,6 +16,8 @@ public class BuildSO :ScriptableObject
 
     [SerializeField] private GameObject prefab;
     public GameObject Prefab { get { return prefab; } }
+    [SerializeField] private GameObject preViewPrefab;
+    public GameObject PreViewPrefab { get { return preViewPrefab; } }
 
     [System.Serializable]
     public struct MyDictionary
