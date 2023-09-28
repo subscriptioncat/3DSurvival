@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InventoryInfo : MonoBehaviour
 {
     public static InventoryInfo instance;
-    private ItemSO item;
+    private InventorySlot inventorySlot;
 
     [SerializeField] private Text itemNameText;
     [SerializeField] private Text itemLabelText;
@@ -29,36 +29,36 @@ public class InventoryInfo : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇØ´ç ¾ÆÀÌÅÛ ½½·Ô¿¡ ´ëÇÑ Á¤º¸ Ãâ·Â ¹× »óÈ£ÀÛ¿ë ¹öÆ° È°¼ºÈ­
+    /// í•´ë‹¹ ì•„ì´í…œ ìŠ¬ë¡¯ì— ëŒ€í•œ ì •ë³´ ì¶œë ¥ ë° ìƒí˜¸ì‘ìš© ë²„íŠ¼ í™œì„±í™”
     /// </summary>
     public void UpdateInfo(InventorySlot inventorySlot)
     {
-        this.item = inventorySlot.Item.ItemSO;
+        this.inventorySlot = inventorySlot;
+        Item item = this.inventorySlot.Item;
 
-        itemNameText.text = item.itemName;
-        itemLabelText.text = item.lable;
+        itemNameText.text = item.ItemSO.itemName;
+        itemLabelText.text = item.ItemSO.lable;
 
         string interactText = "";
 
-        if(item is UsableSO usable)
+        DiscardBtn.gameObject.SetActive(true);
+
+        if(item.ItemSO is UsableSO usable)
         {
-            //½Ä·áÇ°ÀÌ¶ó¸é
-            if(item is EdibleSO edible)
-            {
-                interactText = "Intake";
-            }
-            //´Ü¼ø ¼Ò¸ğÇ°ÀÌ¶ó¸é
-            else
-            {
-                interactText = "Use";
-            }
+            interactText = "Use";
         }
-        //ÀåºñÇ°ÀÌ¶ó¸é
-        else if(item is EquipmentSO equipment)
+        //ì¥ë¹„í’ˆì´ë¼ë©´
+        else if(item.ItemSO is EquipmentSO equipment)
         {
             interactText = "Equip / Dequip";
+
+            //ì¥ì°©í•œ ìƒíƒœì¼ ë•Œì—ëŠ” ë²„ë¦¬ê¸° ë¶ˆê°€ëŠ¥.
+            if (equipment.isEquiped)
+            {
+                DiscardBtn.gameObject.SetActive(false);
+            }
         }
-        //´Ü¼ø Àç·á ¾ÆÀÌÅÛÀÌ¶ó¸é
+        //ë‹¨ìˆœ ì¬ë£Œ ì•„ì´í…œì´ë¼ë©´
         else
         {
             interactText = "none";
@@ -73,17 +73,90 @@ public class InventoryInfo : MonoBehaviour
             InteractBtn.gameObject.SetActive(false);
         }
     }
-    //TODO
-    //ÀÎº¥Åä¸® Á¤º¸ Ã¢¿¡¼­ Å¬¸¯ÇÑ ¹öÆ°¿¡ µû¶ó ÇØ´çÇÏ´Â ÆË¾÷ Ã¢À» ¶ç¿ìµµ·Ï ÇÏ´Â ºÎºĞÀ» ÀÛ¾÷ÇØ¾ß ÇÔ.
 
-    /// <summary>
-    /// ¾ÆÀÌÅÛ ¹ö¸®±â, Á¦ÀÛ, »ç¿ë ½Ã ÆË¾÷Ã¢À» ¶ç¿ï ¶§ »ç¿ëÇÒ ¸Ş¼Òµå. °æ¿ì¿¡ µû¶ó ÆÄ±âÇÒ ¼öµµ ÀÖÀ½
-    /// </summary>
-    /// <param name="okCallback"></param>
-    /// <param name="text"></param>
-    /// <param name="lable"></param>
-    public void ShowInteractPopup(Action okCallback, string text, string lable)
+    //TODO
+    //ì¸ë²¤í† ë¦¬ ì •ë³´ ì°½ì—ì„œ í´ë¦­í•œ ë²„íŠ¼ì— ë”°ë¼ í•´ë‹¹í•˜ëŠ” íŒì—… ì°½ì„ ë„ìš°ë„ë¡ í•˜ëŠ” ë¶€ë¶„ì„ ì‘ì—…í•´ì•¼ í•¨.
+    //DiscartItem() ì‘ì—…ê¹Œì§€ ì™„ë£Œí•´ì•¼ í•¨.
+
+    private void DiscardItem()
     {
-        ItemPopupManager.instance.ShowInteractPopup(okCallback, text, lable);
+        Item item = inventorySlot.Item;
+        string popupText = "ë²„ë¦¬ì‹œê² ìŠµë‹ˆê¹Œ?";
+        string popupLabel = item.ItemSO.itemName;
+        int max = item.Quantity;
+
+        Action<int> action = Discard;
+
+        ItemPopupManager.instance.ShowDiscardPopup(action, popupText, popupLabel, max);
     }
+
+    private void Discard(int amount)
+    {
+        Item item = inventorySlot.Item;
+
+        inventorySlot.SetQuantity(item.Quantity - amount);
+    }
+
+    private void InteractItem()
+    {
+        Item item = inventorySlot.Item;
+        string popupText = "";
+        string popupLabel = item.ItemSO.itemName;
+
+        Action action;
+
+        if (item.ItemSO is UsableSO usable)
+        {
+            popupText = "ì‚¬ìš©í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+            action = Use;
+        }
+        //ì¥ë¹„í’ˆì´ë¼ë©´ ì¥ì°©, íƒˆì°© ë©”ì†Œë“œ ë¶™ì—¬ì£¼ê¸°
+        else if (item.ItemSO is EquipmentSO equipment)
+        {
+            if (equipment.isEquiped)
+            {
+                popupText = "íƒˆì°©í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+                action = Dequip;
+            }
+            else
+            {
+                popupText = "ì¥ì°©í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
+                action = Equip;
+            }
+        }
+        else
+        {
+            popupText = "IteractItem Error";
+            action = null;
+        }
+        ItemPopupManager.instance.ShowInteractPopup(action, popupText, popupLabel);
+    }
+
+    private void Use()
+    {
+        Item item = inventorySlot.Item;
+
+        if (item.ItemSO is UsableSO usable)
+        {
+            //ì‹ë£Œí’ˆ ì¹´í…Œê³ ë¦¬ì˜ ì•„ì´í…œì´ë¼ë©´
+            if (usable is EdibleSO edible)
+            {
+                Debug.Log("is Edible Item!");
+
+                //í”Œë ˆì´ì–´ì˜ ì²´ë ¥, í¬ë§Œê°, ìˆ˜ë¶„, ìŠ¤í…Œë¯¸ë„ˆ ë“±ì„ ì¦ê°ì‹œí‚¤ëŠ” ë¶€ë¶„.
+
+                //í•´ë‹¹ ì•„ì´í…œì˜ ìˆ˜ëŸ‰ 1 ê°ì†Œ, ì´ì— ëŒ€í•œ ê°±ì‹ ì„ ìš”ì²­í•˜ëŠ” ë¶€ë¶„.
+                inventorySlot.SetQuantity(item.Quantity -1);
+            }
+            //ë‹¨ìˆœ ì†Œëª¨í’ˆ ì¹´í…Œê³ ë¦¬ì˜ ì•„ì´í…œì´ë¼ë©´
+            else
+            {
+                Debug.Log("is Usable Item!");
+            }
+        }
+    }
+
+    //ì¥ë¹„í’ˆ ê´€ë ¨ ì¶”ê°€ ì‹œ ì‚¬ìš©í•  ì˜ˆì •
+    private void Equip() { }
+    private void Dequip() { }
 }
