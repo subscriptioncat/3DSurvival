@@ -37,21 +37,5 @@ public class BuildSO :ScriptableObject
     public LayerMask Layer { get { return layer; } }
     public GameObject Prefab { get { return prefab; } }
     public E_BuildingType BuildingType { get { return buildingType; } }
-
-    private Dictionary<string, int> _consumingResources;
-    public Dictionary<string, int> ConsumingResources
-    {
-        get
-        {
-            if (_consumingResources == null)
-            {
-                foreach (var resource in consumingResources)
-                {
-                    _consumingResources.Add(resource.itemName, resource.numberConsumed);
-                }
-            }
-
-            return _consumingResources;
-        }
-    }
+    public MyDictionary[] ConsumingResources{ get { return consumingResources; } }
 }

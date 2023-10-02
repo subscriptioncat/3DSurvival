@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2634479305235197274}
   - component: {fileID: 7321600891757913682}
-  - component: {fileID: -5732021139324481003}
-  m_Layer: 0
+  - component: {fileID: 5399416744648254699}
+  m_Layer: 7
   m_Name: Tent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3114594787965846244}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1662397680261508263}
@@ -49,14 +49,14 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 819ac2c6fef18c54f850315b810c8cc7, type: 3}
---- !u!114 &-5732021139324481003
+--- !u!114 &5399416744648254699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,12 +65,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3114594787965846244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ea11ccc7ac2c3444aafae5db38547eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ab624b8984705e48b3244f05b9979a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerGround: 0
-  green: {fileID: 2100000, guid: cc8ea3b6f25aba548a2c66742d392f70, type: 2}
-  red: {fileID: 2100000, guid: cf215a09ecf3f77459564c4589de9be7, type: 2}
+  building: {fileID: 11400000, guid: 7e6d9b33037d54f4bb37b7ec4b41af57, type: 2}
+  defaultMat:
+  - {fileID: 2100000, guid: 983007e3e230f954187baf11f58a929d, type: 2}
+  - {fileID: 2100000, guid: 57f391477e46ecd44af6579114e37dfb, type: 2}
 --- !u!1001 &3338759931299677372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,6 +83,10 @@ PrefabInstance:
     - target: {fileID: 4127458443936199739, guid: 8ac33b2347e9f3c44b5343e4d23173f9, type: 3}
       propertyPath: m_Name
       value: Tent
+      objectReference: {fileID: 0}
+    - target: {fileID: 4127458443936199739, guid: 8ac33b2347e9f3c44b5343e4d23173f9, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4127458443936622619, guid: 8ac33b2347e9f3c44b5343e4d23173f9, type: 3}
       propertyPath: m_RootOrder
