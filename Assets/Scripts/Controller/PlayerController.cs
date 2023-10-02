@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canLook = true;
+    public bool isMove = false;
 
     private Rigidbody _rigidbody;
 
@@ -81,10 +82,12 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             currentMovementInput = context.ReadValue<Vector2>();
+            isMove = true;
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             currentMovementInput = Vector2.zero;
+            isMove = false;
         }
     }
 
