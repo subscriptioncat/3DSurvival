@@ -33,45 +33,45 @@ public class InventoryInfo : MonoBehaviour
     /// </summary>
     public void UpdateInfo(InventorySlot inventorySlot)
     {
-        this.inventorySlot = inventorySlot;
-        Item item = this.inventorySlot.Item;
+        //this.inventorySlot = inventorySlot;
+        //Item item = this.inventorySlot.Item;
 
-        itemNameText.text = item.ItemSO.itemName;
-        itemLabelText.text = item.ItemSO.lable;
+        //itemNameText.text = item.ItemSO.itemName;
+        //itemLabelText.text = item.ItemSO.lable;
 
-        string interactText = "";
+        //string interactText = "";
 
-        DiscardBtn.gameObject.SetActive(true);
+        //DiscardBtn.gameObject.SetActive(true);
 
-        if(item.ItemSO is UsableSO usable)
-        {
-            interactText = "Use";
-        }
-        //장비품이라면
-        else if(item.ItemSO is EquipmentSO equipment)
-        {
-            interactText = "Equip / Dequip";
+        //if(item.ItemSO is UsableSO usable)
+        //{
+        //    interactText = "Use";
+        //}
+        ////장비품이라면
+        //else if(item.ItemSO is EquipmentSO equipment)
+        //{
+        //    interactText = "Equip / Dequip";
 
-            //장착한 상태일 때에는 버리기 불가능.
-            if (equipment.isEquiped)
-            {
-                DiscardBtn.gameObject.SetActive(false);
-            }
-        }
-        //단순 재료 아이템이라면
-        else
-        {
-            interactText = "none";
-        }
+        //    //장착한 상태일 때에는 버리기 불가능.
+        //    if (equipment.isEquiped)
+        //    {
+        //        DiscardBtn.gameObject.SetActive(false);
+        //    }
+        //}
+        ////단순 재료 아이템이라면
+        //else
+        //{
+        //    interactText = "none";
+        //}
 
-        if (interactText != "none") { 
-            InteractBtn.GetComponentInChildren<Text>().text = interactText; 
-            InteractBtn.gameObject.SetActive(true); 
-        }
-        else
-        {
-            InteractBtn.gameObject.SetActive(false);
-        }
+        //if (interactText != "none") { 
+        //    InteractBtn.GetComponentInChildren<Text>().text = interactText; 
+        //    InteractBtn.gameObject.SetActive(true); 
+        //}
+        //else
+        //{
+        //    InteractBtn.gameObject.SetActive(false);
+        //}
     }
 
     //TODO
@@ -80,80 +80,80 @@ public class InventoryInfo : MonoBehaviour
 
     private void DiscardItem()
     {
-        Item item = inventorySlot.Item;
-        string popupText = "버리시겠습니까?";
-        string popupLabel = item.ItemSO.itemName;
-        int max = item.Quantity;
+        //Item item = inventorySlot.Item;
+        //string popupText = "버리시겠습니까?";
+        //string popupLabel = item.ItemSO.itemName;
+        //int max = item.Quantity;
 
-        Action<int> action = Discard;
+        //Action<int> action = Discard;
 
-        ItemPopupManager.instance.ShowDiscardPopup(action, popupText, popupLabel, max);
+        //ItemPopupManager.instance.ShowDiscardPopup(action, popupText, popupLabel, max);
     }
 
     private void Discard(int amount)
     {
-        Item item = inventorySlot.Item;
+        //Item item = inventorySlot.Item;
 
-        inventorySlot.SetQuantity(item.Quantity - amount);
+        //inventorySlot.SetQuantity(item.Quantity - amount);
     }
 
     private void InteractItem()
     {
-        Item item = inventorySlot.Item;
-        string popupText = "";
-        string popupLabel = item.ItemSO.itemName;
+        //Item item = inventorySlot.Item;
+        //string popupText = "";
+        //string popupLabel = item.ItemSO.itemName;
 
-        Action action;
+        //Action action;
 
-        if (item.ItemSO is UsableSO usable)
-        {
-            popupText = "사용하시겠습니까?";
-            action = Use;
-        }
-        //장비품이라면 장착, 탈착 메소드 붙여주기
-        else if (item.ItemSO is EquipmentSO equipment)
-        {
-            if (equipment.isEquiped)
-            {
-                popupText = "탈착하시겠습니까?";
-                action = Dequip;
-            }
-            else
-            {
-                popupText = "장착하시겠습니까?";
-                action = Equip;
-            }
-        }
-        else
-        {
-            popupText = "IteractItem Error";
-            action = null;
-        }
-        ItemPopupManager.instance.ShowInteractPopup(action, popupText, popupLabel);
+        //if (item.ItemSO is UsableSO usable)
+        //{
+        //    popupText = "사용하시겠습니까?";
+        //    action = Use;
+        //}
+        ////장비품이라면 장착, 탈착 메소드 붙여주기
+        //else if (item.ItemSO is EquipmentSO equipment)
+        //{
+        //    if (equipment.isEquiped)
+        //    {
+        //        popupText = "탈착하시겠습니까?";
+        //        action = Dequip;
+        //    }
+        //    else
+        //    {
+        //        popupText = "장착하시겠습니까?";
+        //        action = Equip;
+        //    }
+        //}
+        //else
+        //{
+        //    popupText = "IteractItem Error";
+        //    action = null;
+        //}
+        //ItemPopupManager.instance.ShowInteractPopup(action, popupText, popupLabel);
     }
 
     private void Use()
     {
-        Item item = inventorySlot.Item;
+        //Item item = inventorySlot.Item;
 
-        if (item.ItemSO is UsableSO usable)
-        {
-            //식료품 카테고리의 아이템이라면
-            if (usable is EdibleSO edible)
-            {
-                Debug.Log("is Edible Item!");
+        //if (item.ItemSO is UsableSO usable)
+        //{
+        //    //식료품 카테고리의 아이템이라면
+        //    if (usable is EdibleSO edible)
+        //    {
+        //        Debug.Log("is Edible Item!");
 
-                //플레이어의 체력, 포만감, 수분, 스테미너 등을 증감시키는 부분.
+        //        //플레이어의 체력, 포만감, 수분, 스테미너 등을 증감시키는 부분.
 
-                //해당 아이템의 수량 1 감소, 이에 대한 갱신을 요청하는 부분.
-                inventorySlot.SetQuantity(item.Quantity -1);
-            }
-            //단순 소모품 카테고리의 아이템이라면
-            else
-            {
-                Debug.Log("is Usable Item!");
-            }
-        }
+        //        //해당 아이템의 수량 1 감소, 이에 대한 갱신을 요청하는 부분.
+        //        inventorySlot.SetQuantity(item.Quantity -1);
+        //    }
+        //    //단순 소모품 카테고리의 아이템이라면
+        //    else
+        //    {
+        //        Debug.Log("is Usable Item!");
+        //    }
+        //}
     }
 
     //장비품 관련 추가 시 사용할 예정

@@ -32,6 +32,6 @@ public class ItemData : ScriptableObject
     public GameObject dropPrefab;
 
     [Header("Stacking")]
-    public bool isStacable;
+    public bool isStackable;
     public int maxStackAmount;
 }
