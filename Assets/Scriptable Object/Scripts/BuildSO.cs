@@ -2,30 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum E_BuildingType
+{
+    Accommodation,
+    Interaction,
+    NotInteraction
+}
+
+[System.Serializable]
+public class MyDictionary
+{
+    public string itemName;
+    public int numberConsumed;
+}
+
 [CreateAssetMenu(fileName = "BuildSO", menuName = "Build/BuildSO", order = int.MaxValue)]
 public class BuildSO :ScriptableObject
 {
-    [SerializeField] private string buildingname;
-    public string BuildingName { get { return buildingname; } }
+    [Header("Info")]
+    [SerializeField] private string buildingName;
     [SerializeField] private string explanation;
-    public string Explanation { get { return explanation; } }
     [SerializeField] private int maxHp;
-    public int MaxHp { get { return maxHp; } }
     [SerializeField] private LayerMask layer;
-    public LayerMask Layer { get { return layer;} }
-
     [SerializeField] private GameObject prefab;
+    [SerializeField] private E_BuildingType buildingType;
+
+    [Header("Resource Item")]
+    [SerializeField] private MyDictionary[] consumingResources;
+    
+
+    public string BuildingName { get { return buildingName; } }
+    public string Explanation { get { return explanation; } }
+    public int MaxHp { get { return maxHp; } }
+    public LayerMask Layer { get { return layer; } }
     public GameObject Prefab { get { return prefab; } }
-    [SerializeField] private GameObject preViewPrefab;
-    public GameObject PreViewPrefab { get { return preViewPrefab; } }
+    public E_BuildingType BuildingType { get { return buildingType; } }
 
-    [System.Serializable]
-    public struct MyDictionary
+    private Dictionary<string, int> _consumingResources;
+    public Dictionary<string, int> ConsumingResources
     {
-        public string itemName;
-        public int numberConsumed;
-    }
+        get
+        {
+            if (_consumingResources == null)
+            {
+                foreach (var resource in consumingResources)
+                {
+                    _consumingResources.Add(resource.itemName, resource.numberConsumed);
+                }
+            }
 
-    [SerializeField] private List<MyDictionary> consumingResources;
-    public List<MyDictionary> ConsumingResources { get { return consumingResources; } }
+            return _consumingResources;
+        }
+    }
 }
