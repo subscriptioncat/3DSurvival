@@ -1,21 +1,39 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance;
-    public List<Item> items;
 
-    [SerializeField] private Transform slotParent;
+    private int currentEquipIndex;
+
+    private PlayerController controller;
+    private PlayerConditions condition;
+
+    private const string EquipableText = "Equip / Dequip";
+    private const string ConsumableText = "Consume";
+
+    [SerializeField] private InventorySlotUI[] uiSlot;
     [SerializeField] private InventorySlot[] slots;
 
-    private void OnValidate()
-    {
-        slots = slotParent.GetComponentsInChildren<InventorySlot>();
-    }
+    [SerializeField] private GameObject inventoryWindow;
+    [SerializeField] private Transform dropPosition;
+
+    [Header("Selected Item")]
+    private InventorySlot selectedItem;
+    private int selectedItemIndex;
+    [SerializeField] private Text itemNameText;
+    [SerializeField] private Text itemLabelText;
+    [SerializeField] private Button InteractBtn;
+    [SerializeField] private Button DiscardBtn;
+
+    [Header("Events")]
+    [SerializeField] UnityEvent onOpenInventory;
+    [SerializeField] UnityEvent onCloseInventory;
 
     private void Awake()
     {
@@ -23,82 +41,244 @@ public class InventoryManager : MonoBehaviour
         {
             instance = this;
         }
-
-        UpdateSlot();
     }
 
-    /// <summary>
-    /// ÀÎº¥Åä¸® UI ¹× º¸À¯ ¾ÆÀÌÅÛ ¸®½ºÆ® °»½Å. ¼ö·®ÀÌ 0 ÀÌÇÏÀÎ ¾ÆÀÌÅÛÀº º¸À¯ ¾ÆÀÌÅÛ ¸®½ºÆ®¿¡¼­ Á¦°ÅÇÑ´Ù.
-    /// </summary>
-    public void UpdateSlot()
+    private void Start()
     {
-        //¼ö·®ÀÌ 0 ÀÌÇÏÀÎ ¾ÆÀÌÅÛÀº º¸À¯ ¾ÆÀÌÅÛ ¸®½ºÆ®¿¡¼­ Á¦°ÅÇÑ´Ù.
-        for (int j = 0; j < items.Count;)
+        controller = GetComponent<PlayerController>();
+        condition = GetComponent<PlayerConditions>();
+
+        inventoryWindow.SetActive(false);
+        slots = new InventorySlot[uiSlot.Length];
+
+        for (int i = 0; i < slots.Length; i++)
         {
-            if (items[j].Quantity <= 0) { items.RemoveAt(j); }
-            else { j++; }
+            slots[i] = new InventorySlot();
+            uiSlot[i].index = i;
+            uiSlot[i].Clear();
         }
 
-        int i = 0;
-        //ÇöÀç±îÁö ½½·Ô¿¡ Ãß°¡ÇÑ ¾ÆÀÌÅÛÀÇ °¹¼ö°¡ ½½·ÔÀÇ ÇÑµµ³ª ¾ÆÀÌÅÛ ¸®½ºÆ®ÀÇ ÇÑµµ ÀÌÇÏÀÏ ¶§ ±îÁö Ãß°¡ÇÑ´Ù.
-        for (; i < items.Count && i < slots.Length; i++)
+        ClearSelectItemWindow();
+    }
+
+    public void OnInventoryBtn(InputAction.CallbackContext callbackContext)
+    {
+        if(callbackContext.phase == InputActionPhase.Started)
         {
-            slots[i].Item = items[i];
-        }
-        //ÀÎº¥Åä¸®ÀÇ °ø°£ÀÌ ¾ÆÁ÷ ³²¾Ò´Ù¸é ºó Ä­À¸·Î Ã¤¿î´Ù.
-        for (; i < slots.Length; i++)
-        {
-            slots[i].Item = null;
-            slots[i].UpdateQuantity();
+            Toggle();
         }
     }
 
-    /// <summary>
-    /// ¾ÆÀÌÅÛ Ãß°¡. ÀÎº¥Åä¸®¿¡ ÀÌ¹Ì Á¸ÀçÇÏ´Â Á¾·ùÀÇ ¾ÆÀÌÅÛÀÌ¶ó¸é °¹¼ö¸¸ Áõ°¡.
-    /// </summary>
-    public void AddItem(Item item)
+    public void Toggle()
     {
-        if (item.Quantity <= 0)
+        if (inventoryWindow.activeInHierarchy)
         {
-            Debug.Log("¾ÆÀÌÅÛÀÇ °¹¼ö´Â 1 °³ ÀÌ»óÀÌ¾î¾ß ÇÕ´Ï´Ù!!!");
-            return;
+            inventoryWindow.SetActive(false);
+            onCloseInventory?.Invoke();
+            controller.ToggleCursor(false);
         }
-
-        //ÀÎº¥Åä¸®¿¡ Á¸ÀçÇÏ´Â ¾ÆÀÌÅÛÀÌ¶ó¸é
-        for (int i = 0; i < slots.Length ; i++)
+        else
         {
-            if(slots[i].Item.ItemSO.itemName == item.ItemSO.itemName)
+            inventoryWindow.SetActive(true);
+            onOpenInventory?.Invoke();
+            controller.ToggleCursor(true);
+        }
+    }
+
+    public bool IsOpen()
+    {
+        return inventoryWindow.activeInHierarchy;
+    }
+
+    public void AddItem(ItemData item)
+    {
+        if (item.isStackable)
+        {
+            InventorySlot slotToStackTo = GetItemStack(item);
+            if(slotToStackTo != null)
             {
-                slots[i].SetQuantity(slots[i].Item.Quantity + item.Quantity);
+                slotToStackTo.quantity++;
+                UpdateUI();
                 return;
             }
         }
 
-        //ÀÎº¥Åä¸®¿¡ Á¸ÀçÇÏÁö ¾Ê´Â ¾ÆÀÌÅÛÀÌ°í, ÀÎº¥Åä¸® °ø°£ÀÌ ³²¾ÆÀÖ´Ù¸é
-        if (items.Count < slots.Length)
+        InventorySlot emptySlot = GetEmptySlot();
+
+        if(emptySlot != null)
         {
-            items.Add(item);
-            UpdateSlot();
+            emptySlot.item = item;
+            emptySlot.quantity = 1;
+            UpdateUI();
+            return;
         }
-        else
-        {
-            Debug.Log("ÀÎº¥Åä¸®°¡ °¡µæ Ã¡½À´Ï´Ù!!!");
-        }
+
+        //ìœ„ì˜ ì¡°ê±´ì„ ë§Œì¡±ì‹œí‚¤ì§€ ëª» í•œë‹¤ë©´(ì¸ë²¤í† ë¦¬ê°€ ê°€ë“ ì°¼ë‹¤ë©´) í•´ë‹¹ ì•„ì´í…œì„ ë±‰ì–´ë‚¸ë‹¤.
+        DiscardItem(item);
     }
 
     /// <summary>
-    /// ÇØ´ç ¾ÆÀÌÅÛÀÇ ¼ö·® ¹İÈ¯. ¾ø´Â ¾ÆÀÌÅÛÀÌ¶ó¸é 0 ¹İÈ¯.
+    /// í•´ë‹¹ ì•„ì´í…œì„ ì¼ì • ë°˜ê²½ ë‚´ì˜ ëœë¤í•œ ìœ„ì¹˜ì— ìƒì„±í•œë‹¤. 
     /// </summary>
-    public int GetQuantity(string itemName)
+    /// <param name="item"></param>
+    public void DiscardItem(ItemData item)
     {
-        for (int i = 0; i < items.Count ; i++)
+        Instantiate(item.dropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360f));
+    }
+
+    private void UpdateUI()
+    {
+        for(int i = 0; i < slots.Length; i++)
         {
-            if(items[i].ItemSO.itemName == itemName)
+            if(slots[i].item != null)
             {
-                return items[i].Quantity;
+                uiSlot[i].Set(slots[i]);
+            }
+            else
+            {
+                uiSlot[i].Clear();
+            }
+        }
+    }
+
+    private InventorySlot GetItemStack(ItemData item)
+    {
+        for(int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].item == item && slots[i].quantity < item.maxStackAmount)
+            {
+                return slots[i];
+            }
+        }
+        return null;
+    }
+
+    private InventorySlot GetEmptySlot()
+    {
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == null)
+            {
+                return slots[i];
             }
         }
 
-        return 0;
+        return null;
+    }
+
+    public void SelectItem(int index)
+    {
+        if (slots[index].item == null) { return; }
+
+        selectedItem = slots[index];
+        selectedItemIndex = index;
+
+        itemNameText.text = selectedItem.item.itemName;
+        itemLabelText.text = selectedItem.item.lable;
+
+        SetInteractBtn(selectedItem);
+
+        //for(int i = 0; i < selectedItem.item.conuma)
+
+    }
+
+    private void ClearSelectItemWindow()
+    {
+        selectedItem = null;
+        itemNameText.text = string.Empty;
+        itemLabelText.text = string.Empty;
+
+        InteractBtn.gameObject.SetActive(false);
+        DiscardBtn.gameObject.SetActive(false);
+    }
+
+    public void OnInteractButton()
+    {
+
+    }
+
+    public void OnDiscardButton()
+    {
+        DiscardItem(selectedItem.item);
+    }
+
+    public void RemoveItem(ItemData item)
+    {
+
+    }
+
+    public bool HasItems(ItemData item, int quantity)
+    {
+        return false;
+    }
+
+    private void SetInteractBtn(InventorySlot itemSlot)
+    {
+        InteractBtn.onClick.RemoveAllListeners();
+
+        switch (itemSlot.item.type)
+        {
+            case ItemType.Resource:
+                {
+                    InteractBtn.gameObject.SetActive(false);
+                    break;
+                }
+            case ItemType.Equipable:
+                {
+                    InteractBtn.GetComponentInChildren<Text>().text = EquipableText;
+
+                    if (selectedItemIndex < uiSlot.Length)
+                    {
+                        if (itemSlot.item.type == ItemType.Equipable)
+                        {
+                            if (uiSlot[selectedItemIndex].equipped)
+                            {
+                                InteractBtn.onClick.AddListener(Dequip);
+                            }
+                            else
+                            {
+                                InteractBtn.onClick.AddListener(Equip);
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("EquipmentInteraction Error!!!");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("EquipmentInteraction Error!!!");
+                    }
+
+                    InteractBtn.gameObject.SetActive(true);
+                    break;
+                }
+            case ItemType.Consumable:
+                {
+                    InteractBtn.GetComponentInChildren<Text>().text = ConsumableText;
+                    InteractBtn.onClick.AddListener(Consume);
+                    InteractBtn.gameObject.SetActive(true);
+                    break;
+                }
+            default:
+                {
+                    InteractBtn.gameObject.SetActive(false);
+                    break;
+                }
+        }
+    }
+
+    private void Equip()
+    {
+    }
+
+    private void Dequip()
+    {
+    }
+
+    private void Consume()
+    {
+
     }
 }

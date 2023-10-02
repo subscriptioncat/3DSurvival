@@ -4,17 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public interface IInteractable
-{
-    string GetInteractPrompt();
-    void OnInteract();
-}
-
 /// <summary>
 /// 플레이어가 아이템을 바라볼 때, 아이템의 이름을 텍스트로 띄우며 상호작용 여부를 알려준다. 이 상태에서 상호작용 키 입력 시 해당 아이템을 맵에서 제거한다.
 /// </summary>
-public class ItemCollisionManager : MonoBehaviour
+public class ItemPickUpManager : MonoBehaviour
 {
+    public static ItemPickUpManager instance;
+
     public float checkRate = 0.05f;
     private float lastCheckTime;
     public float maxCheckDistance;
@@ -25,7 +21,15 @@ public class ItemCollisionManager : MonoBehaviour
 
     public Text promptText;
     private Camera camera;
-    
+
+    private void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,7 +61,6 @@ public class ItemCollisionManager : MonoBehaviour
             }
         }
     }
-
     private void SetPromptText()
     {
         promptText.gameObject.SetActive(true);
