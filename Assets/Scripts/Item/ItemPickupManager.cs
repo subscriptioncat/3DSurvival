@@ -48,7 +48,6 @@ public class ItemPickUpManager : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
-                Debug.Log("ItemInteract!!!");
                 currentInteractGameObject = hit.collider.gameObject;
                 currentInteractable = hit.collider.GetComponent<IInteractable>();
                 SetPromptText();
@@ -72,7 +71,7 @@ public class ItemPickUpManager : MonoBehaviour
     {
         if(callbackContext.phase == InputActionPhase.Started && currentInteractable != null)
         {
-            currentInteractable.OnInteract();
+            currentInteractable.OnPickUp();
             currentInteractGameObject = null;
             currentInteractable = null;
             promptText.gameObject.SetActive(false);

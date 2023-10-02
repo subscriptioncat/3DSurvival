@@ -11,8 +11,9 @@ public class ItemObject : MonoBehaviour, IInteractable
         return string.Format("Pickup {0}", item.itemName);
     }
 
-    void IInteractable.OnInteract()
+    void IInteractable.OnPickUp()
     {
+        InventoryManager.instance.AddItem(item);
         Destroy(gameObject);
     }
 }
