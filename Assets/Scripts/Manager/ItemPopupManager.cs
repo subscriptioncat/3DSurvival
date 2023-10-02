@@ -6,30 +6,65 @@ using UnityEngine.UI;
 
 public class ItemPopupManager : MonoBehaviour
 {
-    [Header("Equipment Popup")]
-    [SerializeField] private GameObject popupObject;
-    [SerializeField] private Text popupText;
-    [SerializeField] private Text popupLable;
-    [SerializeField] private Button yesBtn;
-    [SerializeField] private Button noBtn;
+    public static ItemPopupManager instance;
 
-    private event Action StartProcess;
+    [Header("Interact Popup")]
+    [SerializeField] private GameObject interactPopup;
+    [SerializeField] private Text interactPopupText;
+    [SerializeField] private Text interactPopupLable;
+    [SerializeField] private Button interactYesBtn;
+    [SerializeField] private Button interactNoBtn;
+
+    [Header("Discard Popup")]
+    [SerializeField] private GameObject discardPopup;
+    [SerializeField] private Text discardPopupText;
+    [SerializeField] private Text discardPopupLable;
+    [SerializeField] private Text discardAmountText;
+    [SerializeField] private Button discardPlusBtn;
+    [SerializeField] private Button discardMinusBtn;
+    [SerializeField] private Button discardYesBtn;
+    [SerializeField] private Button discardNoBtn;
+    private int max;
+
+    private event Action IntereactProcess;
+    private event Action<int> DiscardProcess;
 
     private void Awake()
     {
-        yesBtn.onClick.AddListener(HidePopup);
-        yesBtn.onClick.AddListener(() => StartProcess?.Invoke());
+        if (instance == null) { instance = this; }
 
-        noBtn.onClick.AddListener(HidePopup);
+        //아이템 상호작용 팝업 초기화
+        interactYesBtn.onClick.AddListener(HidePopup);
+        interactYesBtn.onClick.AddListener(() => IntereactProcess?.Invoke());
+
+        interactNoBtn.onClick.AddListener(HidePopup);
+
+        //아이템 버리기 팝업 초기화
+        discardYesBtn.onClick.AddListener(HidePopup);
+        discardYesBtn.onClick.AddListener(() => DiscardProcess?.Invoke(int.Parse(discardAmountText.text)));
+
+        discardNoBtn.onClick.AddListener(HidePopup);
     }
 
-    private void HidePopup() { gameObject.SetActive(false); }
+    //TODO
+    //아이템 상호작용 팝업, 아이템 버리기 팝업 컨트롤러 클래스 분할하기, 아이템 버리기 팝업 컨트롤러 완성하기.
+    //https://rito15.github.io/posts/unity-study-rpg-inventory/ 아이템 분할 부분 참조해서 만들기. +- 버튼 기능과 입력 상한치 지정이 남았음.
 
-    public void ShowPopup(Action okCallback, string text, string lable)
+    private void HidePopup() { interactPopup.SetActive(false); discardPopup.SetActive(false); }
+
+    public void ShowInteractPopup(Action okCallback, string text, string lable)
     {
-        popupText.text = text;
-        popupLable.text = lable;
-        popupObject.SetActive(true);
-        StartProcess = okCallback;
+        interactPopupText.text = text;
+        interactPopupLable.text = lable;
+        interactPopup.SetActive(true);
+        IntereactProcess = okCallback;
+    }
+    public void ShowDiscardPopup(Action<int> okCallback, string text, string lable, int max)
+    {
+        discardPopupText.text = text;
+        discardPopupLable.text = lable;
+        discardPopup.SetActive(true);
+        DiscardProcess = okCallback;
+        this.max = max;
     }
 }

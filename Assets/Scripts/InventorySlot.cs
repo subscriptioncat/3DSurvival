@@ -18,13 +18,13 @@ public class InventorySlot : MonoBehaviour
         {
             item = value;
 
-            //ºó ½½·ÔÀÌ ¾Æ´Ï¶ó¸é ÀÌ¹ÌÁö Ç¥½Ã
+            //ë¹ˆ ìŠ¬ë¡¯ì´ ì•„ë‹ˆë¼ë©´ ì´ë¯¸ì§€ í‘œì‹œ
             if (item != null)
             {
                 image.sprite = item.ItemSO.itemImage;
                 image.color = new Color(1, 1, 1, 1);
             }
-            //ºó ½½·ÔÀÌ¶ó¸é ÀÌ¹ÌÁö¸¦ Ç¥½ÃÇÏÁö ¾ÊÀ½
+            //ë¹ˆ ìŠ¬ë¡¯ì´ë¼ë©´...?
             else
             {
                 //image.color = new Color(1, 1, 1, 0);
@@ -39,7 +39,7 @@ public class InventorySlot : MonoBehaviour
         item.Quantity = quantity;
         UpdateQuantity();
 
-        //³²Àº ¼ö·®ÀÌ 0ÀÌ µÇ¾ú´Ù¸é, ÀÎº¥Åä¸® UI¿Í ¹èÄ¡µÈ Item À» °»½ÅÇÑ´Ù.
+        //ë‚¨ì€ ìˆ˜ëŸ‰ì´ 0ì´ ë˜ì—ˆë‹¤ë©´, ì¸ë²¤í† ë¦¬ UIì™€ ë°°ì¹˜ëœ Item ì„ ê°±ì‹ í•œë‹¤.
         if(item.Quantity <= 0)
         {
             InventoryManager.instance.UpdateSlot();
@@ -47,7 +47,7 @@ public class InventorySlot : MonoBehaviour
     }
 
     /// <summary>
-    /// ¾ÆÀÌÅÛ ¼ö·® Ç¥½Ã ÅØ½ºÆ® °»½Å. item ÀÌ null ÀÌ°Å³ª ¼ö·®ÀÌ 0 ÀÌÇÏ¶ó¸é ÅØ½ºÆ® ºñÈ°¼ºÈ­.
+    /// ì•„ì´í…œ ìˆ˜ëŸ‰ í‘œì‹œ í…ìŠ¤íŠ¸ ê°±ì‹ . item ì´ null ì´ê±°ë‚˜ ìˆ˜ëŸ‰ì´ 0 ì´í•˜ë¼ë©´ í…ìŠ¤íŠ¸ ë¹„í™œì„±í™”.
     /// </summary>
     public void UpdateQuantity()
     {
@@ -65,67 +65,24 @@ public class InventorySlot : MonoBehaviour
     {
         if (item != null)
         {
+            //ì¸ë²¤í† ë¦¬ í•˜ë‹¨ì— í˜„ì¬ ì•„ì´í…œ ì •ë³´ ì¶œë ¥ ë° ìƒí˜¸ì‘ìš©, ë²„ë¦¬ê¸° ë²„íŠ¼ í™œì„±í™”
+            InventoryInfo.instance.UpdateInfo(this);
+
             //string popupText = "";
             //string popupLable = GetLableText();
 
             //if(item.ItemSO is EquipmentSO equipmentSO)
             //if (equipmentSO.isEquiped)
             //{
-            //    popupText = "Àåºñ¸¦ ÇØÁ¦ÇÏ½Ã°Ú½À´Ï±î?";
+            //    popupText = "ì¥ë¹„ë¥¼ í•´ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
 
             //    InventoryManager.instance.ShowPopup(() => Dequip(), popupText, popupLable);
             //}
             //else
             //{
-            //    popupText = "Àåºñ¸¦ ÀåÂøÇÏ½Ã°Ú½À´Ï±î?";
+            //    popupText = "ì¥ë¹„ë¥¼ ì¥ì°©í•˜ì‹œê² ìŠµë‹ˆê¹Œ?";
             //    Inventory.instance.ShowPopup(() => Equip(), popupText, popupLable);
             //}
         }
     }
-
-    private void Equip()
-    {
-        //player.atk += item.atk;
-        //player.def += item.def;
-        //item.isEquiped = true;
-    }
-
-    private void Dequip()
-    {
-        //player.atk -= item.atk;
-        //player.def -= item.def;
-        //item.isEquiped = false;
-    }
-
-    //private string GetPopupLableText()
-    //{
-    //    string popupLable = "";
-
-    //    if (item.atk != 0)
-    //    {
-    //        if (item.atk > 0)
-    //        {
-    //            popupLable += "+ ";
-    //        }
-    //        popupLable += $"{item.atk} ATK";
-    //    }
-    //    if (item.def != 0)
-    //    {
-    //        if (item.def > 0)
-    //        {
-    //            popupLable += "+ ";
-    //        }
-    //        popupLable += $"{item.def} DEF";
-    //    }
-    //    if (item.con != 0)
-    //    {
-    //        if (item.con > 0)
-    //        {
-    //            popupLable += "+ ";
-    //        }
-    //        popupLable += $"{item.con} CON";
-    //    }
-
-    //    return popupLable;
-    //}
 }
