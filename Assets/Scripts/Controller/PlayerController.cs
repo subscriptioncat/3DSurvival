@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canLook = true;
+    public bool isMove = false;
 
     private Rigidbody _rigidbody;
 
@@ -81,10 +82,12 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             currentMovementInput = context.ReadValue<Vector2>();
+            isMove = true;
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             currentMovementInput = Vector2.zero;
+            isMove = false;
         }
     }
 
@@ -118,22 +121,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteractiveInput(InputAction.CallbackContext context)
     {
+        ItemPickUpManager.instance.OnInteractInput(context);
+
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("Interactive");
         }
-
-
     }
 
     public void OnInventoryInput(InputAction.CallbackContext context)
     {
+        InventoryManager.instance.OnInventoryBtn(context);
+
+
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("Inventory");
         }
-
-
     }
 
     public void OnStatsInput(InputAction.CallbackContext context)
@@ -180,5 +184,11 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(transform.position + (-transform.forward * 0.2f) + (Vector3.up * 0.01f), Vector3.down);
         Gizmos.DrawRay(transform.position + ( transform.right * 0.2f) + (Vector3.up * 0.01f), Vector3.down);
         Gizmos.DrawRay(transform.position + (-transform.right * 0.2f) + (Vector3.up * 0.01f), Vector3.down);
+    }
+
+    public void ToggleCursor(bool toggle)
+    {
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
     }
 }
