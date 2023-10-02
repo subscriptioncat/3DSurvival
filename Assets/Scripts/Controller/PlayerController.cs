@@ -122,8 +122,6 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Interactive");
         }
-
-
     }
 
     public void OnInventoryInput(InputAction.CallbackContext context)
