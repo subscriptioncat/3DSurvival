@@ -118,6 +118,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteractiveInput(InputAction.CallbackContext context)
     {
+        ItemPickUpManager.instance.OnInteractInput(context);
+
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("Interactive");
@@ -126,12 +128,13 @@ public class PlayerController : MonoBehaviour
 
     public void OnInventoryInput(InputAction.CallbackContext context)
     {
+        InventoryManager.instance.OnInventoryBtn(context);
+
+
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("Inventory");
         }
-
-
     }
 
     public void OnStatsInput(InputAction.CallbackContext context)
@@ -178,5 +181,11 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawRay(transform.position + (-transform.forward * 0.2f) + (Vector3.up * 0.01f), Vector3.down);
         Gizmos.DrawRay(transform.position + ( transform.right * 0.2f) + (Vector3.up * 0.01f), Vector3.down);
         Gizmos.DrawRay(transform.position + (-transform.right * 0.2f) + (Vector3.up * 0.01f), Vector3.down);
+    }
+
+    public void ToggleCursor(bool toggle)
+    {
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
     }
 }
