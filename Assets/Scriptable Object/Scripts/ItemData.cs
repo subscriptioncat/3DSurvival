@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 다른 하위 분류에 대한 정보가 없다면, 단순히 재료로서의 기능만 수행하는 아이템으로 취급한다.
-/// </summary>
-
 public enum ItemType
 {
     Resource,
@@ -19,6 +15,14 @@ public enum ConsumableType
     Thirst,
     Health,
     Stemina,
+    Heat
+}
+
+[System.Serializable]
+public class ConsumableData
+{
+    public ConsumableType type;
+    public float value;
 }
 
 [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
@@ -34,4 +38,7 @@ public class ItemData : ScriptableObject
     [Header("Stacking")]
     public bool isStackable;
     public int maxStackAmount;
+
+    [Header("Consumable")]
+    public ConsumableData[] consumables;
 }

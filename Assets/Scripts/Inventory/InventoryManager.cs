@@ -14,7 +14,8 @@ public class InventoryManager : MonoBehaviour
     private PlayerController controller;
     private PlayerConditions condition;
 
-    private const string EquipableText = "Equip / Dequip";
+    private const string EquipText = "Equip";
+    private const string DequipText = "Dequip";
     private const string ConsumableText = "Consume";
 
     [SerializeField] private InventorySlotUI[] uiSlot;
@@ -114,16 +115,33 @@ public class InventoryManager : MonoBehaviour
         }
 
         //위의 조건을 만족시키지 못 한다면(인벤토리가 가득 찼다면) 해당 아이템을 뱉어낸다.
-        DiscardItem(item);
+        ThrowItem(item);
     }
 
     /// <summary>
     /// 해당 아이템을 일정 반경 내의 랜덤한 위치에 생성한다. 
     /// </summary>
-    /// <param name="item"></param>
-    public void DiscardItem(ItemData item)
+    public void ThrowItem(ItemData item)
     {
         Instantiate(item.dropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360f));
+    }
+
+    public void RemoveItem()
+    {
+        selectedItem.quantity--;
+
+        if (selectedItem.quantity <= 0)
+        {
+            if (uiSlot[selectedItemIndex].equipped)
+            {
+                Dequip();
+            }
+
+            selectedItem.item = null;
+            ClearSelectItemWindow();
+        }
+
+        UpdateUI();
     }
 
     private void UpdateUI()
@@ -177,10 +195,11 @@ public class InventoryManager : MonoBehaviour
         itemNameText.text = selectedItem.item.itemName;
         itemLabelText.text = selectedItem.item.lable;
 
+        itemNameText.gameObject.SetActive(true);
+        itemLabelText.gameObject.SetActive(true);
+
         SetInteractBtn(selectedItem);
-
-        //for(int i = 0; i < selectedItem.item.conuma)
-
+        DiscardBtn.gameObject.SetActive(true);
     }
 
     private void ClearSelectItemWindow()
@@ -193,19 +212,10 @@ public class InventoryManager : MonoBehaviour
         DiscardBtn.gameObject.SetActive(false);
     }
 
-    public void OnInteractButton()
-    {
-
-    }
-
     public void OnDiscardButton()
     {
-        DiscardItem(selectedItem.item);
-    }
-
-    public void RemoveItem(ItemData item)
-    {
-
+        ThrowItem(selectedItem.item);
+        RemoveItem();
     }
 
     public bool HasItems(ItemData item, int quantity)
@@ -213,6 +223,9 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// 아이템 상호작용 버튼 세팅. 해당 아이템 타입에 대응하는 메소드를 연결한다.
+    /// </summary>
     private void SetInteractBtn(InventorySlot itemSlot)
     {
         InteractBtn.onClick.RemoveAllListeners();
@@ -226,18 +239,18 @@ public class InventoryManager : MonoBehaviour
                 }
             case ItemType.Equipable:
                 {
-                    InteractBtn.GetComponentInChildren<Text>().text = EquipableText;
-
                     if (selectedItemIndex < uiSlot.Length)
                     {
                         if (itemSlot.item.type == ItemType.Equipable)
                         {
                             if (uiSlot[selectedItemIndex].equipped)
                             {
+                                InteractBtn.GetComponentInChildren<Text>().text = DequipText;
                                 InteractBtn.onClick.AddListener(Dequip);
                             }
                             else
                             {
+                                InteractBtn.GetComponentInChildren<Text>().text = EquipText;
                                 InteractBtn.onClick.AddListener(Equip);
                             }
                         }
@@ -271,14 +284,59 @@ public class InventoryManager : MonoBehaviour
 
     private void Equip()
     {
+        uiSlot[selectedItemIndex].equipped = true;
     }
 
     private void Dequip()
     {
+        uiSlot[selectedItemIndex].equipped = false;
     }
 
     private void Consume()
     {
+        if(selectedItem.item.type == ItemType.Consumable)
+        {
+            ConsumableData con;
 
+            for (int i = 0; i < selectedItem.item.consumables.Length; i++)
+            {
+                con = selectedItem.item.consumables[i];    
+                switch (con.type)
+                {
+                    case ConsumableType.Hunger:
+                        {
+                            condition.Eat(con.value);
+                            break;
+                        }
+                    case ConsumableType.Thirst:
+                        {
+                            condition.Drink(con.value);
+                            break;
+                        }
+                    case ConsumableType.Health:
+                        {
+                            condition.Heal(con.value);
+                            break;
+                        }
+                    case ConsumableType.Stemina:
+                        {
+                            Debug.Log($"Restored {con.value} Stemina");
+                            break;
+                        }
+                    case ConsumableType.Heat:
+                        {
+                            condition.Heat(con.value);
+                            break;
+                        }
+                    default:
+                        {
+                            InteractBtn.gameObject.SetActive(false);
+                            break;
+                        }
+                }
+            }
+        }
+
+        RemoveItem();
     }
 }
