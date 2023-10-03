@@ -18,10 +18,10 @@ public class CraftManager : MonoBehaviour
     private const string EnoughText = "Craft";
 
     [SerializeField] private CraftSlotUI[] uiSlot;
+    [SerializeField] private CraftSO[] recipes;
     [SerializeField] private CraftSlot[] slots;
 
     [SerializeField] private GameObject craftWindow;
-    [SerializeField] private Transform dropPosition;
 
     [Header("Selected Item")]
     private CraftSlot selectedItem;
@@ -29,7 +29,12 @@ public class CraftManager : MonoBehaviour
     [SerializeField] private Text itemNameText;
     [SerializeField] private Text itemLabelText;
     [SerializeField] private Text itemAmountText;
+    [SerializeField] private Text itemRecipeText;
     [SerializeField] private Button craftBtn;
+
+    [Header("Inventory/Crafting UI")]
+    [SerializeField] private Button InventoryBtn;
+    [SerializeField] private Button CraftingBtn;
 
     [Header("Events")]
     [SerializeField] UnityEvent onOpenCraft;
@@ -58,12 +63,25 @@ public class CraftManager : MonoBehaviour
             uiSlot[i].Clear();
         }
 
+        AddRecipes(recipes);
+
         ClearSelectItemWindow();
     }
 
-    public void OnCraftBtn()
+    public void OnCraftingBtnClicked()
     {
-        Toggle();
+        InventoryBtn.interactable = true;
+        CraftingBtn.interactable = false;
+        InventoryBtn.gameObject.SetActive(true);
+        CraftingBtn.gameObject.SetActive(true);
+
+        craftWindow.SetActive(true);
+        InventoryManager.instance.SetWindow(false);
+    }
+
+    public void SetWindow(bool isOpen)
+    {
+        craftWindow.SetActive(isOpen);
     }
 
     public void Toggle()
@@ -80,6 +98,9 @@ public class CraftManager : MonoBehaviour
             onOpenCraft?.Invoke();
             controller.ToggleCursor(true);
         }
+
+        InventoryBtn.interactable = true;
+        CraftingBtn.interactable = false;
     }
 
     public bool IsOpen()
@@ -127,6 +148,7 @@ public class CraftManager : MonoBehaviour
     /// </summary>
     private void RemoveMaterials(CraftMaterial[] recipe)
     {
+        Debug.Log("UsingMaterials : CraftManager");
         InventoryManager inventoryManager = InventoryManager.instance;
 
         for (int i = 0; i < recipe.Length; i++)
@@ -137,20 +159,13 @@ public class CraftManager : MonoBehaviour
 
     public void SelectItem(int index)
     {
+        Debug.Log("CraftingItemSelected");
         if (slots[index].item == null) { return; }
 
         selectedItem = slots[index];
         selectedItemIndex = index;
 
-        itemNameText.text = selectedItem.item.Item.itemName;
-        itemLabelText.text = selectedItem.item.Item.lable;
-        itemAmountText.text = selectedItem.item.Amount.ToString();
-
-        itemNameText.gameObject.SetActive(true);
-        itemLabelText.gameObject.SetActive(true);
-        itemAmountText.gameObject.SetActive(true);
-
-        SetCraftBtn(selectedItem);
+        SetCraft(selectedItem);
     }
 
     private void ClearSelectItemWindow()
@@ -158,6 +173,8 @@ public class CraftManager : MonoBehaviour
         selectedItem = null;
         itemNameText.text = string.Empty;
         itemLabelText.text = string.Empty;
+        itemAmountText.text = string.Empty;
+        itemRecipeText.text = string.Empty;
 
         craftBtn.gameObject.SetActive(false);
     }
@@ -165,24 +182,90 @@ public class CraftManager : MonoBehaviour
     public void OnCraftButton()
     {
         CraftItem();
-        SetCraftBtn(selectedItem);
+        SetCraft(selectedItem);
     }
 
     /// <summary>
-    /// 아이템 제작 버튼 세팅. 선택된 레시피의 재료가 충분하다면 제작 버튼 활성화, 아니라면 별도의 텍스트를 출력하고 비활성화.
+    /// 아이템 제작 세팅. 선택된 레시피에 대한 정보 표시, 재료가 충분하다면 제작 버튼 활성화, 아니라면 별도의 텍스트를 출력하고 비활성화.
     /// </summary>
-    private void SetCraftBtn(CraftSlot itemSlot)
+    private void SetCraft(CraftSlot itemSlot)
     {
+        string recipeStr = GetRecipeText(itemSlot);
+
+        itemNameText.text = selectedItem.item.Item.itemName;
+        itemLabelText.text = selectedItem.item.Item.lable;
+        itemAmountText.text = "x " + selectedItem.item.Amount.ToString();
+        itemRecipeText.text = recipeStr;
+
+        itemNameText.gameObject.SetActive(true);
+        itemLabelText.gameObject.SetActive(true);
+        itemAmountText.gameObject.SetActive(true);
+        itemRecipeText.gameObject.SetActive(true);
+
         //재료가 충분하다면
         if (IsEnough(itemSlot.item.Materials))
         {
-            craftBtn.GetComponentInChildren<Text>().text = NotEnoughText;
+            craftBtn.GetComponentInChildren<Text>().text = EnoughText;
+            craftBtn.interactable = true;
         }
         else
         {
-            craftBtn.GetComponentInChildren<Text>().text = EnoughText;
+            craftBtn.GetComponentInChildren<Text>().text = NotEnoughText;
+            craftBtn.interactable = false;
         }
 
         craftBtn.gameObject.SetActive(true);
+    }
+
+    private string GetRecipeText(CraftSlot craftSlot)
+    {
+        string recipeText = "";
+        CraftMaterial[] craftMaterials = craftSlot.item.Materials;
+
+        if (craftMaterials.Length > 0)
+        {
+            InventoryManager inventory = InventoryManager.instance;
+            int remain = 0;
+
+            for (int i = 0; i < craftMaterials.Length; i++)
+            {
+                remain = inventory.GetRemain(craftMaterials[i].itemData);
+                recipeText += $"(<b>{remain}</b>/{craftMaterials[i].amount}) {craftMaterials[i].itemData.itemName}\n";
+            }
+        }
+        else { recipeText = "필요 재료 없음"; }
+
+        return recipeText;
+    }
+
+    private void AddRecipes(CraftSO[] crafts)
+    {
+        CraftSlot craftSlot = new CraftSlot();
+
+        for (int i = 0; i < crafts.Length; i++)
+        {
+            if (i >= slots.Length) { return; }
+
+            craftSlot.item = crafts[i];
+            craftSlot.quantity = crafts[i].Amount;
+            slots[i] = craftSlot;
+        }
+
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null)
+            {
+                uiSlot[i].Set(slots[i]);
+            }
+            else
+            {
+                uiSlot[i].Clear();
+            }
+        }
     }
 }
