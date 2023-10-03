@@ -133,7 +133,6 @@ public class PlayerController : MonoBehaviour
     {
         InventoryManager.instance.OnInventoryBtn(context);
 
-
         if (context.phase == InputActionPhase.Started)
         {
             Debug.Log("Inventory");

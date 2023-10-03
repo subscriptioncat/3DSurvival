@@ -123,11 +123,13 @@ public class PlayerConditions : MonoBehaviour, IDamagable
     public void Eat(float amount)
     {
         hunger.Add(amount);
+        AudioManager.instance.EatingSound();
     }
 
     public void Drink(float amount)
     {
         thirst.Add(amount);
+        AudioManager.instance.DrinkingSound();
     }
 
     public bool UseStamina(float amount)
@@ -149,6 +151,7 @@ public class PlayerConditions : MonoBehaviour, IDamagable
 
     public void TakePhysicalDamage(float damageAmount)
     {
+        AudioManager.instance.DamageSound();
         health.Subtract(damageAmount);
 
         onTakeDamage?.Invoke();

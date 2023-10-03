@@ -12,6 +12,9 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Source")]
     public AudioSource BGM;
     public AudioSource Walking;
+    public AudioSource Damage;
+    public AudioSource Drinking;
+    public AudioSource Eating;
 
     private void Awake()
     {
@@ -31,5 +34,23 @@ public class AudioManager : MonoBehaviour
             Walking.Play();
         else if (PlayerController.instance.isMove == false)
             Walking.Stop();
+    }
+
+    public void DamageSound()
+    {
+        if (Damage.isPlaying == false)
+            Damage.Play();
+    }
+
+    public void DrinkingSound()
+    {
+        if (Drinking.isPlaying == false)
+            Drinking.Play();
+    }
+
+    public void EatingSound()
+    {
+        if (Eating.isPlaying == false)
+            Eating.Play();
     }
 }
