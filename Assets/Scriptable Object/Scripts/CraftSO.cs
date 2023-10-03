@@ -19,9 +19,7 @@ public class CraftSO:ScriptableObject
     [Header("Resource Item")]
     [SerializeField] private CraftMaterial[] materials;
 
-    public string ItemName { get { return item.itemName; } }
-    public string Label { get { return item.lable; } }
-    public Sprite Icon { get { return item.icon; } }
+    public ItemData Item { get { return item; } }
     public int Amount { get { return amount; } }
     public CraftMaterial[] Materials{ get { return materials; } }
 }
