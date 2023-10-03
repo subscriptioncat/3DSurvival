@@ -15,8 +15,8 @@ public class BuildingObject : MonoBehaviour, IInteractable
         string text = "";
         foreach (var myDictionary in building.ConsumingResources)
         {
-            text += myDictionary.itemName;
-            int count = myDictionary.itemName.Length;
+            text += myDictionary.itemData.itemName;
+            int count = myDictionary.itemData.itemName.Length;
             for (int i = 0; i < 10 - count; i++)
             {
                 text += " ";
