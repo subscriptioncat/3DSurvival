@@ -9,6 +9,7 @@ public class BuildingObject : MonoBehaviour, IInteractable
     private Material[] defaultMat;
 
     private Build myBuild;
+    private CanvasGroup canvasGroup;
 
     public string GetInteractPrompt()
     {
@@ -30,8 +31,7 @@ public class BuildingObject : MonoBehaviour, IInteractable
     {
         if (CheckItem())
         {
-            Debug.Log("성공");
-            //ResourceConsumption();
+            ResourceConsumption();
             gameObject.GetComponentInChildren<Renderer>().materials = defaultMat; // 원색으로 변경
             gameObject.layer = 10; //상호작용 해제
             gameObject.GetComponent<MeshCollider>().isTrigger = false; //충돌설정
@@ -40,14 +40,16 @@ public class BuildingObject : MonoBehaviour, IInteractable
         }
         else
         {
+            canvasGroup.alpha = 1.0f;
+            Invoke("CanvasFadeOut", 0.3f);
             Debug.Log("실패");
-            //실패팝업 띄우기
         }
     }
 
     public void GetMyBuild(Build build)
     {
         myBuild = build;
+        canvasGroup = myBuild.Canvas.GetComponent<CanvasGroup>();
     }
 
     public bool CheckItem()
@@ -72,4 +74,17 @@ public class BuildingObject : MonoBehaviour, IInteractable
         
     }
 
+    public void CanvasFadeOut()
+    {
+        if (canvasGroup.alpha > 0f)
+        {
+            canvasGroup.alpha -= 0.1f;
+            Invoke("CanvasFadeOut", 0.1f);
+        }
+        else
+        {
+            CancelInvoke("CanvasFadeOut");
+            return;
+        }
+    }
 }

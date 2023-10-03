@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,8 +16,9 @@ public class Build : MonoBehaviour, IInteractable
     //모든 건축 리스트를 저장해야 됩니다.
     [SerializeField] private BuildingsList[] buildingsList;
     public BuildingsList[] BuildingsList { get { return buildingsList; } }
-    [SerializeField]
-    private Material green;
+    [SerializeField] private Material green;
+    [SerializeField] private Canvas canvas;
+    public Canvas Canvas { get { return canvas; } }
 
     private bool isPreViewActive = false;
     private List<GameObject> previewList;
