@@ -200,7 +200,6 @@ public class InventoryManager : MonoBehaviour
             {
                 Dequip();
             }
-
             selectedItem.item = null;
             ClearSelectItemWindow();
         }
