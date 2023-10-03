@@ -119,6 +119,70 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 인벤토리에 해당 아이템의 수량이 충분한지의 여부를 반환한다.
+    /// </summary>
+    public bool IsEnough(ItemData itemData, int amount)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].item != null && slots[i].item.itemName == itemData.itemName)
+            {
+                amount -= slots[i].quantity;
+                if(amount <= 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 인벤토리에서 해당 아이템을 지정한 수량만큼 제거한다. 별도의 확인 과정 없이 수행되므로 조심해서 사용할 것.
+    /// </summary>
+    public void RemoveMaterials(ItemData itemData, int amount)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null && slots[i].item.itemName == itemData.itemName)
+            {
+
+                if (slots[i].quantity >= amount)
+                {
+                    slots[i].quantity -= amount;
+                    amount = 0;
+                }
+                else
+                {
+                    amount -= slots[i].quantity;
+                }
+
+                if (slots[i].quantity <= 0)
+                {
+                    if (uiSlot[i].equipped)
+                    {
+                        Dequip();
+                    }
+
+                    slots[i].item = null;
+                    ClearSelectItemWindow();
+                    UpdateUI();
+                }
+
+                if (amount <= 0)
+                {
+                    return;
+                }
+            }
+        }
+
+        if(amount > 0)
+        {
+            Debug.Log("RemoveMaterials Error!!! 인벤토리의 아이템 수량이 부족합니다!!!");
+        }
+    }
+
+    /// <summary>
     /// 해당 아이템을 일정 반경 내의 랜덤한 위치에 생성한다. 
     /// </summary>
     public void ThrowItem(ItemData item)
@@ -344,4 +408,6 @@ public class InventoryManager : MonoBehaviour
 
         RemoveItem();
     }
+
+
 }
