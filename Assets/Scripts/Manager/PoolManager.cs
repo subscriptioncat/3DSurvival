@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    public GameObject[] Prefabs;
+    public static PoolManager instance;
+
+    public GameObject[] prefabs;
 
     private List<GameObject>[] pools;
 
     private void Awake() {
-        pools = new List<GameObject>[Prefabs.Length];
+        PoolManager.instance = this;
+
+        pools = new List<GameObject>[prefabs.Length];
 
         for (int i = 0; i < pools.Length; i++) {
             pools[i] = new List<GameObject>();
@@ -30,10 +34,14 @@ public class PoolManager : MonoBehaviour
         }
 
         if(!select) {
-            select = Instantiate(Prefabs[index]);
+            select = Instantiate(prefabs[index]);
             pools[index].Add(select);
         }
 
         return select;
+    }
+
+    public GameObject GetItemByRandom() {
+        return GetItemWithIndex(Random.Range(0, prefabs.Length));
     }
 }
