@@ -83,7 +83,6 @@ public class BuildingObject : MonoBehaviour, IInteractable
         }
         else
         {
-            CancelInvoke("CanvasFadeOut");
             return;
         }
     }
