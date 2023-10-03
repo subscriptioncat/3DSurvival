@@ -600,6 +600,7 @@ MonoBehaviour:
   Walking: {fileID: 2125791395}
   Damage: {fileID: 2032884790}
   Drinking: {fileID: 1640099443}
+  Eating: {fileID: 1537664351}
 --- !u!4 &420434097
 Transform:
   m_ObjectHideFlags: 0
