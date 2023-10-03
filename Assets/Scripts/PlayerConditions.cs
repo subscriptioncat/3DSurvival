@@ -149,6 +149,7 @@ public class PlayerConditions : MonoBehaviour, IDamagable
 
     public void TakePhysicalDamage(float damageAmount)
     {
+        AudioManager.instance.DamageSound();
         health.Subtract(damageAmount);
 
         onTakeDamage?.Invoke();
