@@ -125,7 +125,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if(slots[i].item.itemName == itemData.itemName)
+            if(slots[i].item != null && slots[i].item.itemName == itemData.itemName)
             {
                 amount -= slots[i].quantity;
                 if(amount <= 0)
@@ -144,7 +144,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item.itemName == itemData.itemName)
+            if (slots[i].item != null && slots[i].item.itemName == itemData.itemName)
             {
 
                 if (slots[i].quantity >= amount)
