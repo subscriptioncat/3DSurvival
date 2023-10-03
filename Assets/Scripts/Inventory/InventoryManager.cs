@@ -36,8 +36,6 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] UnityEvent onOpenInventory;
     [SerializeField] UnityEvent onCloseInventory;
 
-    private int itemSlotsCount = 0;
-
     private void Awake()
     {
         if (instance == null)
@@ -110,7 +108,6 @@ public class InventoryManager : MonoBehaviour
 
         if(emptySlot != null)
         {
-            itemSlotsCount++;
             emptySlot.item = item;
             emptySlot.quantity = 1;
             UpdateUI();
@@ -139,7 +136,6 @@ public class InventoryManager : MonoBehaviour
             {
                 Dequip();
             }
-            itemSlotsCount--;
             selectedItem.item = null;
             ClearSelectItemWindow();
         }
@@ -347,68 +343,5 @@ public class InventoryManager : MonoBehaviour
         }
 
         RemoveItem();
-    }
-
-    /// <summary>
-    /// 인벤토리에 해당 아이템의 수량이 충분한지의 여부를 반환한다.
-    /// </summary>
-    public bool IsEnough(ItemData itemData, int amount)
-    {
-        for (int i = 0; i < itemSlotsCount; i++)
-        {
-            if (slots[i].item.itemName == itemData.itemName)
-            {
-                if (amount <= slots[i].quantity)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// 인벤토리에서 해당 아이템을 지정한 수량만큼 제거한다. 별도의 확인 과정 없이 수행되므로 조심해서 사용할 것.
-    /// </summary>
-    public void RemoveMaterials(ItemData itemData, int amount)
-    {
-        for (int i = 0; i < slots.Length; i++)
-        {
-            if (slots[i].item.itemName == itemData.itemName)
-            {
-
-                if (slots[i].quantity >= amount)
-                {
-                    slots[i].quantity -= amount;
-                    amount = 0;
-                }
-                else
-                {
-                    amount -= slots[i].quantity;
-                }
-
-                if (slots[i].quantity <= 0)
-                {
-                    if (uiSlot[i].equipped)
-                    {
-                        Dequip();
-                    }
-
-                    slots[i].item = null;
-                    ClearSelectItemWindow();
-                    UpdateUI();
-                }
-
-                if (amount <= 0)
-                {
-                    return;
-                }
-            }
-        }
-
-        if (amount > 0)
-        {
-            Debug.Log("RemoveMaterials Error!!! 인벤토리의 아이템 수량이 부족합니다!!!");
-        }
     }
 }
