@@ -48,7 +48,14 @@ public class Build : MonoBehaviour, IInteractable
 
     public string GetInteractPrompt()
     {
-        return string.Format("DisPlyer PreView");
+        if (isPreViewActive)
+        {
+            return string.Format("Hide PreView");
+        }
+        else
+        {
+            return string.Format("DisPlyer PreView");
+        }
     }
 
     public void OnPickUp()

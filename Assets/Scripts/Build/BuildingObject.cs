@@ -28,11 +28,11 @@ public class BuildingObject : MonoBehaviour, IInteractable
 
     public void OnPickUp()
     {
-        gameObject.GetComponentInChildren<Renderer>().materials = defaultMat;
-        gameObject.layer = 10;
-        gameObject.GetComponent<MeshCollider>().isTrigger = false;
+        gameObject.GetComponentInChildren<Renderer>().materials = defaultMat; // 원색으로 변경
+        gameObject.layer = 10; //상호작용 해제
+        gameObject.GetComponent<MeshCollider>().isTrigger = false; //충돌설정
         gameObject.GetComponent<MeshCollider>().convex = false;
-        myBuild.RemovePreview(this.gameObject);
+        myBuild.RemovePreview(this.gameObject); //프리뷰 리스트에서 해제
     }
 
     public void GetMyBuild(Build build)
