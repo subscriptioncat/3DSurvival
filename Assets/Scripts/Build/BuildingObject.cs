@@ -40,8 +40,9 @@ public class BuildingObject : MonoBehaviour, IInteractable
         }
         else
         {
+            CancelInvoke("CanvasFadeOut");
             canvasGroup.alpha = 1.0f;
-            Invoke("CanvasFadeOut", 0.3f);
+            Invoke("CanvasFadeOut", 0.4f);
             Debug.Log("실패");
         }
     }
@@ -79,10 +80,11 @@ public class BuildingObject : MonoBehaviour, IInteractable
         if (canvasGroup.alpha > 0f)
         {
             canvasGroup.alpha -= 0.1f;
-            Invoke("CanvasFadeOut", 0.1f);
+            Invoke("CanvasFadeOut", 0.07f);
         }
         else
         {
+            CancelInvoke("CanvasFadeOut");
             return;
         }
     }
