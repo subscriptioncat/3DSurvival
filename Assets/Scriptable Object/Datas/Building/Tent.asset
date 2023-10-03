@@ -22,4 +22,4 @@ MonoBehaviour:
   buildingType: 0
   consumingResources:
   - itemData: {fileID: 11400000, guid: 51d6a27f42fb79f41b8c15b40737af76, type: 2}
-    numberConsumed: 5
+    numberConsumed: 1
