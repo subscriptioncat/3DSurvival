@@ -12,7 +12,7 @@ public enum E_BuildingType
 [System.Serializable]
 public class MyDictionary
 {
-    public string itemName;
+    public ItemData itemData;
     public int numberConsumed;
 }
 
