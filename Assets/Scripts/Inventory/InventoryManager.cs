@@ -285,11 +285,17 @@ public class InventoryManager : MonoBehaviour
     private void Equip()
     {
         uiSlot[selectedItemIndex].equipped = true;
+        uiSlot[selectedItemIndex].SetEquipped(true);
+        InteractBtn.GetComponentInChildren<Text>().text = DequipText;
+        InteractBtn.onClick.AddListener(Dequip);
     }
 
     private void Dequip()
     {
         uiSlot[selectedItemIndex].equipped = false;
+        uiSlot[selectedItemIndex].SetEquipped(false);
+        InteractBtn.GetComponentInChildren<Text>().text = EquipText;
+        InteractBtn.onClick.AddListener(Equip);
     }
 
     private void Consume()

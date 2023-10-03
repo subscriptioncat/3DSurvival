@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c912dfdcaa3c57346b9d841a38082585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IconBtn: {fileID: 0}
+  IconBtn: {fileID: 2424539705573997991}
   image: {fileID: 7583643367889875934}
   quantityText: {fileID: 1715938547595349826}
   equippedText: {fileID: 7166698039606102078}
