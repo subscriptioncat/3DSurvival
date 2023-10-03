@@ -76,7 +76,6 @@ public class InventoryInfo : MonoBehaviour
 
     //TODO
     //인벤토리 정보 창에서 클릭한 버튼에 따라 해당하는 팝업 창을 띄우도록 하는 부분을 작업해야 함.
-    //DiscartItem() 작업까지 완료해야 함.
 
     private void DiscardItem()
     {
