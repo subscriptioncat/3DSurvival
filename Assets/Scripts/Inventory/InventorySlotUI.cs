@@ -49,7 +49,11 @@ public class InventorySlotUI : MonoBehaviour
 
     public void OnClickSlot()
     {
-        Debug.Log("InventorySlot Clicked!!!");
         InventoryManager.instance.SelectItem(index);
+    }
+
+    public void SetEquipped(bool isTrue)
+    {
+        equippedText.gameObject.SetActive(isTrue);
     }
 }
