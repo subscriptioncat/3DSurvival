@@ -32,6 +32,11 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Button InteractBtn;
     [SerializeField] private Button DiscardBtn;
 
+    [Header("Inventory/Crafting UI")]
+    [SerializeField] private Button InventoryBtn;
+    [SerializeField] private Button CraftingBtn;
+    [SerializeField] private GameObject InventoryUIWindow;
+
     [Header("Events")]
     [SerializeField] UnityEvent onOpenInventory;
     [SerializeField] UnityEvent onCloseInventory;
@@ -48,6 +53,11 @@ public class InventoryManager : MonoBehaviour
     {
         controller = GetComponent<PlayerController>();
         condition = GetComponent<PlayerConditions>();
+
+        InventoryBtn.interactable = false;
+        CraftingBtn.interactable = true;
+        InventoryBtn.gameObject.SetActive(true);
+        CraftingBtn.gameObject.SetActive(true);
 
         inventoryWindow.SetActive(false);
         slots = new InventorySlot[uiSlot.Length];
@@ -70,20 +80,42 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void OnInventoryBtnClicked()
+    {
+        InventoryBtn.interactable = false;
+        CraftingBtn.interactable = true;
+        InventoryBtn.gameObject.SetActive(true);
+        CraftingBtn.gameObject.SetActive(true);
+
+        InventoryUIWindow.SetActive(true);
+        CraftManager.instance.SetWindow(false);
+    }
+
+    public void SetWindow(bool isOpen)
+    {
+        InventoryUIWindow.SetActive(isOpen);
+    }
+
     public void Toggle()
     {
         if (inventoryWindow.activeInHierarchy)
         {
             inventoryWindow.SetActive(false);
+            InventoryUIWindow.SetActive(false);
+            CraftManager.instance.SetWindow(false);
             onCloseInventory?.Invoke();
             controller.ToggleCursor(false);
         }
         else
         {
+            InventoryBtn.interactable = false;
+            CraftingBtn.interactable = true;
             inventoryWindow.SetActive(true);
+            InventoryUIWindow.SetActive(true);
             onOpenInventory?.Invoke();
             controller.ToggleCursor(true);
         }
+
     }
 
     public bool IsOpen()
@@ -146,7 +178,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (slots[i].item != null && slots[i].item.itemName == itemData.itemName)
             {
-
+                Debug.Log("UsingMaterials : InventoryManager");
                 if (slots[i].quantity >= amount)
                 {
                     slots[i].quantity -= amount;
@@ -180,6 +212,21 @@ public class InventoryManager : MonoBehaviour
         {
             Debug.Log("RemoveMaterials Error!!! 인벤토리의 아이템 수량이 부족합니다!!!");
         }
+    }
+
+    public int GetRemain(ItemData itemData)
+    {
+        int remain = 0;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item != null && slots[i].item.itemName == itemData.itemName)
+            {
+                remain += slots[i].quantity;
+            }
+        }
+
+        return remain;
     }
 
     /// <summary>
