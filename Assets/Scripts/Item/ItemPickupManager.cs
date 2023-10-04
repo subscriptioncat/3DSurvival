@@ -22,6 +22,7 @@ public class ItemPickUpManager : MonoBehaviour
     public Text promptText;
     private Camera camera;
 
+    public float resourceRespawnTerm;
     private void Awake()
     {
         if(instance == null)
@@ -72,9 +73,29 @@ public class ItemPickUpManager : MonoBehaviour
         if(callbackContext.phase == InputActionPhase.Started && currentInteractable != null)
         {
             currentInteractable.OnPickUp();
+
+            // 아이템인가?
+            if(currentInteractGameObject.GetComponent<ItemObject>()) {
+                // 버린아이템인가?
+                if(currentInteractGameObject.GetComponent<Rigidbody>()) {
+                    Destroy(currentInteractGameObject);
+                }
+                else {
+                    StartCoroutine(RespawnCoroutine(currentInteractGameObject));
+                }
+            }
+            
             currentInteractGameObject = null;
             currentInteractable = null;
             promptText.gameObject.SetActive(false);
         }
+    }
+    
+    private IEnumerator RespawnCoroutine(GameObject go) {
+        go.SetActive(false);
+
+        yield return new WaitForSeconds(resourceRespawnTerm);
+
+        go.SetActive(true);
     }
 }

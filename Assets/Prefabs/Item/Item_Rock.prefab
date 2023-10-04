@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1937375756711124397}
   - component: {fileID: 5014593679269437923}
-  - component: {fileID: 235385846887560707}
+  - component: {fileID: -6570849685410494847}
   - component: {fileID: 8618245728777253295}
   m_Layer: 7
   m_Name: Item_Rock
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 719f3215f28ad02488be8668f35e3167, type: 2}
---- !u!54 &235385846887560707
+--- !u!54 &-6570849685410494847
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

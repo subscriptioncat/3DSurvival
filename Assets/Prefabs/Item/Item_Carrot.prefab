@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 216149731045488624}
   - component: {fileID: 8815823457092360340}
-  - component: {fileID: 1152033054300467468}
+  - component: {fileID: -474973377492642797}
   - component: {fileID: 3789355320637917648}
   m_Layer: 7
   m_Name: Item_Carrot
@@ -26,15 +26,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5178997948621720039}
-  m_LocalRotation: {x: 0, y: 0, z: -0.2769793, w: 0.96087587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4, y: 1, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6296145664005031414}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -32.16}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8815823457092360340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 3279e0405303e9145ad4400cc17d5674, type: 2}
---- !u!54 &1152033054300467468
+--- !u!54 &-474973377492642797
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
