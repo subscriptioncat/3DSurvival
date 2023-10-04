@@ -13,6 +13,7 @@ A10조 양떼의 3D 숙련주차 팀 프로젝트 3DSurvival입니다.
 * `팀원`조영오님
   * Item
   * Inventory
+  * Crafting
 * `팀원`조용준님
   * Sound
   * Animation
