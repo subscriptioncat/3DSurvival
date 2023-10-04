@@ -240,12 +240,13 @@ public class CraftManager : MonoBehaviour
 
     private void AddRecipes(CraftSO[] crafts)
     {
-        CraftSlot craftSlot = new CraftSlot();
+        CraftSlot craftSlot;
 
         for (int i = 0; i < crafts.Length; i++)
         {
             if (i >= slots.Length) { return; }
 
+            craftSlot = new CraftSlot();
             craftSlot.item = crafts[i];
             craftSlot.quantity = crafts[i].Amount;
             slots[i] = craftSlot;
