@@ -1,7 +1,6 @@
 # 3DSurvival
 ## 🔍프로젝트 소개
-A10조 양떼의 3D 숙련주차 팀 프로젝트 3DSurvival입니다. <br>
- 
+A10조 양떼의 3D 숙련주차 팀 프로젝트 3DSurvival입니다.
 ## 👬멤버 구성과 역할분배
 * `팀장`기현빈님
   * Map
@@ -16,11 +15,8 @@ A10조 양떼의 3D 숙련주차 팀 프로젝트 3DSurvival입니다. <br>
   * Inventory
 * `팀원`조용준님
   * Sound
-  * Animation <br>
- 
+  * Animation
 ## 📁구현한 기능
-d <br>
- 
+d
 ## 🐑멤버별 소감
-d <br>
- 
+d
