@@ -10,19 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e85f561ee9723334f8f270b9b88cd8fb, type: 3}
-  m_Name: Apple
+  m_Name: Mushroom
   m_EditorClassIdentifier: 
-  itemName: "\uC0AC\uACFC"
-  lable: "\uCCB4\uB825, \uC218\uBD84, \uD3EC\uB9CC\uAC10\uC744 \uC57D\uAC04 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
-  type: 2
-  icon: {fileID: 7293598183456022363, guid: 1ddc9afd21fec77489b1248d18f31b68, type: 3}
-  dropPrefab: {fileID: 6526855200556778255, guid: 99ab9a7df569a1a44a79df19444c29af, type: 3}
+  itemName: "\uBC84\uC12F"
+  lable: "\uBC30\uACE0\uD514\uACFC \uAC08\uC99D\uC744 \uC57D\uAC04 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
+  type: 0
+  icon: {fileID: 4138223980208024357, guid: 5100b75572e484e458e4340e2afe9454, type: 3}
+  dropPrefab: {fileID: 279354611227255268, guid: e883ef9085352484c9e3e76351515178, type: 3}
   isStackable: 1
   maxStackAmount: 12
   consumables:
-  - type: 2
-    value: 10
   - type: 0
-    value: 20
+    value: 5
   - type: 1
-    value: 10
+    value: 20
