@@ -1456,6 +1456,7 @@ MonoBehaviour:
   - {fileID: 1772209358}
   recipes:
   - {fileID: 11400000, guid: 603e11700df78274e90d761630d7f0f0, type: 2}
+  - {fileID: 11400000, guid: a7fcfcc75e5ef2c4a9d9ce66b3152fbe, type: 2}
   slots: []
   craftWindow: {fileID: 2034515975}
   itemNameText: {fileID: 991288428}
