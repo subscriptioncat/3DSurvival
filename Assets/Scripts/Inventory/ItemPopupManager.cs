@@ -49,10 +49,6 @@ public class ItemPopupManager : MonoBehaviour
         discardMinusBtn.onClick.AddListener(DecreseAmount);
     }
 
-    //TODO
-    //아이템 상호작용 팝업, 아이템 버리기 팝업 컨트롤러 클래스 분할하기, 아이템 버리기 팝업 컨트롤러 완성하기.
-    //https://rito15.github.io/posts/unity-study-rpg-inventory/ 아이템 분할 부분 참조해서 만들기. +- 버튼 기능과 입력 상한치 지정이 남았음.
-
     private void HidePopup() { interactPopup.SetActive(false); discardPopup.SetActive(false); }
 
     public void ShowInteractPopup(Action okCallback, string text, string lable)
@@ -77,7 +73,15 @@ public class ItemPopupManager : MonoBehaviour
     {
         if (int.TryParse(discardAmountText.text, out int discardAmt))
         {
-            if (discardAmt + 1 <= max) { discardAmt += 1;  discardAmountText.text = discardAmt.ToString(); }
+            if (discardAmt + 1 <= max) 
+            { 
+                discardAmt += 1;  
+                discardAmountText.text = discardAmt.ToString();
+                discardMinusBtn.interactable = true;
+            }
+            
+            //현재 설정된 버릴 수량이 보유 수량 이상이라면 + 버튼 선택이 불가능하도록 변경
+            if (discardAmt >= max) { discardPlusBtn.interactable = false; }
         }
     }
 
@@ -85,7 +89,15 @@ public class ItemPopupManager : MonoBehaviour
     {
         if (int.TryParse(discardAmountText.text, out int discardAmt))
         {
-            if (discardAmt - 1 >= 0) { discardAmt -= 1; discardAmountText.text = discardAmt.ToString(); }
+            if (discardAmt - 1 >= 1) 
+            { 
+                discardAmt -= 1; 
+                discardAmountText.text = discardAmt.ToString();
+                discardPlusBtn.interactable = true;
+            }
+
+            //현재 설정된 버릴 수량이 최저 수량(1개) 이하라면 - 버튼 선택이 불가능하도록 변경
+            if (discardAmt <= 1) { discardMinusBtn.interactable = false; }
         }
     }
 }
