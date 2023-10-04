@@ -15,7 +15,8 @@ MonoBehaviour:
   itemName: "\uAC80"
   lable: "\uC801\uC744 \uACF5\uACA9\uD560 \uB54C \uC0AC\uC6A9\uD569\uB2C8\uB2E4."
   type: 1
-  icon: {fileID: 21300000, guid: 4f2f320a217307a48a107491b1d17ebb, type: 3}
+  icon: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
   dropPrefab: {fileID: 1378684571970245363, guid: 6478aecef0a4c2349a8f2cc28685e0f5, type: 3}
   isStackable: 0
   maxStackAmount: 0
+  consumables: []
