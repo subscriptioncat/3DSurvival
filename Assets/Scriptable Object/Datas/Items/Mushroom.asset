@@ -16,7 +16,7 @@ MonoBehaviour:
   lable: "\uBC30\uACE0\uD514\uACFC \uAC08\uC99D\uC744 \uC57D\uAC04 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
   type: 2
   icon: {fileID: 21300000, guid: 966ff550585ec504896a28b55fd7281c, type: 3}
-  dropPrefab: {fileID: 279354611227255268, guid: e883ef9085352484c9e3e76351515178, type: 3}
+  dropPrefab: {fileID: 5068915280995712147, guid: a3fb75cd38c2bd041a3def2229a6de14, type: 3}
   isStackable: 1
   maxStackAmount: 12
   consumables:
