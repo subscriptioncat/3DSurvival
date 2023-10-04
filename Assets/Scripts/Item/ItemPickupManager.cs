@@ -22,7 +22,7 @@ public class ItemPickUpManager : MonoBehaviour
     public Text promptText;
     private Camera camera;
 
-    public float resourceRespawnTerm = 1f;
+    public float resourceRespawnTerm;
     private void Awake()
     {
         if(instance == null)
