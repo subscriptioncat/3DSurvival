@@ -34,8 +34,16 @@ public class BuildingObject : MonoBehaviour, IInteractable
             ResourceConsumption();
             gameObject.GetComponentInChildren<Renderer>().materials = defaultMat; // 원색으로 변경
             gameObject.layer = 10; //상호작용 해제
-            gameObject.GetComponent<MeshCollider>().isTrigger = false; //충돌설정
-            gameObject.GetComponent<MeshCollider>().convex = false;
+            var collider = gameObject.GetComponent<MeshCollider>();
+            if(collider != null)
+            {
+                gameObject.GetComponent<MeshCollider>().isTrigger = false; //충돌설정
+                gameObject.GetComponent<MeshCollider>().convex = false;
+            }
+            else
+            {
+                gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            }
             myBuild.RemovePreview(this.gameObject); //프리뷰 리스트에서 해제
         }
         else
