@@ -74,7 +74,16 @@ public class ItemPickUpManager : MonoBehaviour
         {
             currentInteractable.OnPickUp();
 
-            StartCoroutine(RespawnCoroutine(currentInteractGameObject));
+            // 아이템인가?
+            if(currentInteractGameObject.GetComponent<ItemObject>()) {
+                // 버린아이템인가?
+                if(currentInteractGameObject.GetComponent<Rigidbody>()) {
+                    Destroy(currentInteractGameObject);
+                }
+                else {
+                    StartCoroutine(RespawnCoroutine(currentInteractGameObject));
+                }
+            }
             
             currentInteractGameObject = null;
             currentInteractable = null;
