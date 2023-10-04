@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: "\uB3CC"
   lable: "\uD754\uD55C \uB3CC\uC785\uB2C8\uB2E4."
   type: 0
-  icon: {fileID: 21300000, guid: e61976ceaf6919c47853f5a7ea09288b, type: 3}
+  icon: {fileID: 21300000, guid: b9a847102a75c8c429a8f749008df6c2, type: 3}
   dropPrefab: {fileID: 1260441693565671818, guid: 558a0ee33eb8e1645acf2310636da087, type: 3}
   isStackable: 1
   maxStackAmount: 12
