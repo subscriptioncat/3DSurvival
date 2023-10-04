@@ -910,7 +910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &60700717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17207,7 +17207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1405582925
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17250,9 +17250,9 @@ MonoBehaviour:
   discardPopup: {fileID: 60700716}
   discardPopupText: {fileID: 1136660107}
   discardPopupLable: {fileID: 1444204016}
-  discardAmountText: {fileID: 0}
-  discardPlusBtn: {fileID: 0}
-  discardMinusBtn: {fileID: 0}
+  discardAmountText: {fileID: 240765183}
+  discardPlusBtn: {fileID: 918839471}
+  discardMinusBtn: {fileID: 189569613}
   discardYesBtn: {fileID: 904134882}
   discardNoBtn: {fileID: 1388428788}
 --- !u!4 &1405887568 stripped
