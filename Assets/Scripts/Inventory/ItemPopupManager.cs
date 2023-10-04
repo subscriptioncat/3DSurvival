@@ -44,11 +44,10 @@ public class ItemPopupManager : MonoBehaviour
         discardYesBtn.onClick.AddListener(() => DiscardProcess?.Invoke(int.Parse(discardAmountText.text)));
 
         discardNoBtn.onClick.AddListener(HidePopup);
-    }
 
-    //TODO
-    //아이템 상호작용 팝업, 아이템 버리기 팝업 컨트롤러 클래스 분할하기, 아이템 버리기 팝업 컨트롤러 완성하기.
-    //https://rito15.github.io/posts/unity-study-rpg-inventory/ 아이템 분할 부분 참조해서 만들기. +- 버튼 기능과 입력 상한치 지정이 남았음.
+        discardPlusBtn.onClick.AddListener(IncreseAmount);
+        discardMinusBtn.onClick.AddListener(DecreseAmount);
+    }
 
     private void HidePopup() { interactPopup.SetActive(false); discardPopup.SetActive(false); }
 
@@ -59,12 +58,62 @@ public class ItemPopupManager : MonoBehaviour
         interactPopup.SetActive(true);
         IntereactProcess = okCallback;
     }
-    public void ShowDiscardPopup(Action<int> okCallback, string text, string lable, int max)
+
+    public void ShowDiscardPopup(Action<int> okCallback, InventorySlot inventorySlot)
     {
-        discardPopupText.text = text;
-        discardPopupLable.text = lable;
-        discardPopup.SetActive(true);
+        discardPopupText.text = "버리시겠습니까?";
+        discardPopupLable.text = inventorySlot.item.itemName;
+        discardAmountText.text = "1";
+
         DiscardProcess = okCallback;
-        this.max = max;
+        this.max = inventorySlot.quantity;
+        SetPlusMinusBtn();
+
+        discardPopup.SetActive(true);
+    }
+
+    private void SetPlusMinusBtn()
+    {
+        if(int.TryParse(discardAmountText.text, out int amt))
+        {
+            discardPlusBtn.interactable = true;
+            discardMinusBtn.interactable = true;
+
+            if (amt >= max) { discardPlusBtn.interactable = false; }
+            
+            if(amt <= 1) { discardMinusBtn.interactable = false; }
+        }
+    }
+
+    private void IncreseAmount()
+    {
+        if (int.TryParse(discardAmountText.text, out int discardAmt))
+        {
+            if (discardAmt + 1 <= max) 
+            { 
+                discardAmt += 1;  
+                discardAmountText.text = discardAmt.ToString();
+                discardMinusBtn.interactable = true;
+            }
+            
+            //현재 설정된 버릴 수량이 보유 수량 이상이라면 + 버튼 선택이 불가능하도록 변경
+            if (discardAmt >= max) { discardPlusBtn.interactable = false; }
+        }
+    }
+
+    private void DecreseAmount()
+    {
+        if (int.TryParse(discardAmountText.text, out int discardAmt))
+        {
+            if (discardAmt - 1 >= 1) 
+            { 
+                discardAmt -= 1; 
+                discardAmountText.text = discardAmt.ToString();
+                discardPlusBtn.interactable = true;
+            }
+
+            //현재 설정된 버릴 수량이 최저 수량(1개) 이하라면 - 버튼 선택이 불가능하도록 변경
+            if (discardAmt <= 1) { discardMinusBtn.interactable = false; }
+        }
     }
 }

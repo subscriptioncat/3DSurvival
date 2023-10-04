@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -910,7 +910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &60700717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14496,6 +14496,24 @@ MonoBehaviour:
   - building: {fileID: 11400000, guid: 7e6d9b33037d54f4bb37b7ec4b41af57, type: 2}
     pos: {x: -10, y: 0, z: 5}
     rotation: {x: 0, y: 0, z: 0}
+  - building: {fileID: 11400000, guid: 04b7f6080edea5e499c9fcc4300f6310, type: 2}
+    pos: {x: -30, y: 0, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+  - building: {fileID: 11400000, guid: 37e42268d46c3e04ab8327e0b4a672fd, type: 2}
+    pos: {x: -23, y: 0, z: -10}
+    rotation: {x: 0, y: 0, z: 0}
+  - building: {fileID: 11400000, guid: 55b58e004b632414eb3cebd30bc2fc3e, type: 2}
+    pos: {x: -30, y: 0, z: -10}
+    rotation: {x: 0, y: 0, z: 0}
+  - building: {fileID: 11400000, guid: 45647d4d85bb0d747b2dc2e67adeda36, type: 2}
+    pos: {x: -10, y: 0, z: -10}
+    rotation: {x: 0, y: 0, z: 0}
+  - building: {fileID: 11400000, guid: e58467cf80450f74297c38d63edd8812, type: 2}
+    pos: {x: -10, y: 0, z: -12}
+    rotation: {x: 0, y: 0, z: 0}
+  - building: {fileID: 11400000, guid: 494924c5b97c5f34e92a406786f58c62, type: 2}
+    pos: {x: -10, y: 0, z: -15}
+    rotation: {x: 0, y: 0, z: 0}
   green: {fileID: 2100000, guid: cc8ea3b6f25aba548a2c66742d392f70, type: 2}
   canvas: {fileID: 125085027}
 --- !u!1 &1181995527
@@ -17207,7 +17225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1405582925
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17250,9 +17268,9 @@ MonoBehaviour:
   discardPopup: {fileID: 60700716}
   discardPopupText: {fileID: 1136660107}
   discardPopupLable: {fileID: 1444204016}
-  discardAmountText: {fileID: 0}
-  discardPlusBtn: {fileID: 0}
-  discardMinusBtn: {fileID: 0}
+  discardAmountText: {fileID: 240765183}
+  discardPlusBtn: {fileID: 918839471}
+  discardMinusBtn: {fileID: 189569613}
   discardYesBtn: {fileID: 904134882}
   discardNoBtn: {fileID: 1388428788}
 --- !u!4 &1405887568 stripped

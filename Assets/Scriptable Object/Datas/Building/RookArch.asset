@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 527369025878e77459fa588eff7a9c21, type: 3}
-  m_Name: Tent
+  m_Name: RookArch
   m_EditorClassIdentifier: 
-  buildingName: "\uD150\uD2B8"
-  explanation: "\uC5EC\uD589\uC790\uC758 \uC27C\uD130 \uC785\uB2C8\uB2E4."
+  buildingName: "\uB3CC\uC544\uCE58"
+  explanation: "\uB3CC\uB85C \uB9CC\uB4E0 \uC544\uCE58 \uAD6C\uC870\uBB3C \uC785\uB2C8\uB2E4."
   maxHp: 9999
   layer:
     serializedVersion: 2
     m_Bits: 128
-  prefab: {fileID: 3114594787965846244, guid: 386dc8c14276abc4989701f6f01e4e34, type: 3}
+  prefab: {fileID: 288610322564219328, guid: 24096fba828be054cbc7211a65c190f7, type: 3}
   buildingType: 1
   consumingResources:
-  - itemData: {fileID: 11400000, guid: 51d6a27f42fb79f41b8c15b40737af76, type: 2}
-    numberConsumed: 3
+  - itemData: {fileID: 11400000, guid: 719f3215f28ad02488be8668f35e3167, type: 2}
+    numberConsumed: 12

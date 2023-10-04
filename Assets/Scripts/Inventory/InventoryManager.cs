@@ -230,8 +230,13 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 해당 아이템을 일정 반경 내의 랜덤한 위치에 생성한다. 
+    /// 아이템을 일정 반경 내의 랜덤한 위치에 생성한다. 
     /// </summary>
+    public void ThrowItem()
+    {
+        Instantiate(selectedItem.item.dropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360f));
+    }
+
     public void ThrowItem(ItemData item)
     {
         Instantiate(item.dropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360f));
@@ -324,8 +329,7 @@ public class InventoryManager : MonoBehaviour
 
     public void OnDiscardButton()
     {
-        ThrowItem(selectedItem.item);
-        RemoveItem();
+        ItemPopupManager.instance.ShowDiscardPopup(DiscardItem, selectedItem);
     }
 
     public bool HasItems(ItemData item, int quantity)
@@ -456,5 +460,12 @@ public class InventoryManager : MonoBehaviour
         RemoveItem();
     }
 
-
+    private void DiscardItem(int amount)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            ThrowItem();
+            RemoveItem();
+        }
+    }
 }
