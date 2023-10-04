@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 216149731045488624}
   - component: {fileID: 8815823457092360340}
-  - component: {fileID: 3789355320637917648}
   - component: {fileID: -474973377492642797}
+  - component: {fileID: 3789355320637917648}
   m_Layer: 7
   m_Name: Item_Carrot
   m_TagString: Untagged
@@ -48,27 +48,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 3279e0405303e9145ad4400cc17d5674, type: 2}
---- !u!65 &3789355320637917648
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5178997948621720039}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.034832932, y: 0.17931671, z: 0.035216518}
-  m_Center: {x: 0.00051777996, y: -0.019781422, z: -0.00066958147}
 --- !u!54 &-474973377492642797
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -96,6 +75,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &3789355320637917648
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178997948621720039}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.034832932, y: 0.17931671, z: 0.035216518}
+  m_Center: {x: 0.00051777996, y: -0.019781422, z: -0.00066958147}
 --- !u!1001 &6919894323060776063
 PrefabInstance:
   m_ObjectHideFlags: 0
