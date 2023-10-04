@@ -44,6 +44,9 @@ public class ItemPopupManager : MonoBehaviour
         discardYesBtn.onClick.AddListener(() => DiscardProcess?.Invoke(int.Parse(discardAmountText.text)));
 
         discardNoBtn.onClick.AddListener(HidePopup);
+
+        discardPlusBtn.onClick.AddListener(IncreseAmount);
+        discardMinusBtn.onClick.AddListener(DecreseAmount);
     }
 
     //TODO
@@ -59,12 +62,30 @@ public class ItemPopupManager : MonoBehaviour
         interactPopup.SetActive(true);
         IntereactProcess = okCallback;
     }
-    public void ShowDiscardPopup(Action<int> okCallback, string text, string lable, int max)
+
+    public void ShowDiscardPopup(Action<int> okCallback, InventorySlot inventorySlot)
     {
-        discardPopupText.text = text;
-        discardPopupLable.text = lable;
+        discardPopupText.text = "버리시겠습니까?";
+        discardPopupLable.text = inventorySlot.item.itemName;
+        discardAmountText.text = "1";
         discardPopup.SetActive(true);
         DiscardProcess = okCallback;
-        this.max = max;
+        this.max = inventorySlot.quantity;
+    }
+
+    private void IncreseAmount()
+    {
+        if (int.TryParse(discardAmountText.text, out int discardAmt))
+        {
+            if (discardAmt + 1 <= max) { discardAmt += 1;  discardAmountText.text = discardAmt.ToString(); }
+        }
+    }
+
+    private void DecreseAmount()
+    {
+        if (int.TryParse(discardAmountText.text, out int discardAmt))
+        {
+            if (discardAmt - 1 >= 0) { discardAmt -= 1; discardAmountText.text = discardAmt.ToString(); }
+        }
     }
 }
