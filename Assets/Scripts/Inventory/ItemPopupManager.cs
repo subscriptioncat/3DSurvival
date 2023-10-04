@@ -64,9 +64,25 @@ public class ItemPopupManager : MonoBehaviour
         discardPopupText.text = "버리시겠습니까?";
         discardPopupLable.text = inventorySlot.item.itemName;
         discardAmountText.text = "1";
-        discardPopup.SetActive(true);
+
         DiscardProcess = okCallback;
         this.max = inventorySlot.quantity;
+        SetPlusMinusBtn();
+
+        discardPopup.SetActive(true);
+    }
+
+    private void SetPlusMinusBtn()
+    {
+        if(int.TryParse(discardAmountText.text, out int amt))
+        {
+            discardPlusBtn.interactable = true;
+            discardMinusBtn.interactable = true;
+
+            if (amt >= max) { discardPlusBtn.interactable = false; }
+            
+            if(amt <= 1) { discardMinusBtn.interactable = false; }
+        }
     }
 
     private void IncreseAmount()
