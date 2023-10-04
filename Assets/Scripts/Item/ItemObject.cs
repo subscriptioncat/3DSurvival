@@ -14,6 +14,5 @@ public class ItemObject : MonoBehaviour, IInteractable
     void IInteractable.OnPickUp()
     {
         InventoryManager.instance.AddItem(item);
-        Destroy(gameObject);
     }
 }
